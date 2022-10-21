@@ -11,7 +11,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AccountComponent } from './components/account/account.component';
 import {NgSelectModule} from "@ng-select/ng-select";
-import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
+import { AddCustomerComponent } from './components/add-customer/add-customer.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,8 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
     FooterComponent,
     AccountComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    AddCustomerComponent
 
   ],
   imports: [
@@ -31,8 +32,7 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgSelectModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
