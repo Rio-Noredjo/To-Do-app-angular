@@ -1,1 +1,306 @@
-<p>add-user works!</p>
+<div class="row justify-content-sm-center">
+  <div class="col-sm-6">
+    <form
+      [formGroup]="addUserFormGroup"
+      (ngSubmit)="onSubmit()"
+      novalidate
+      autocomplete="off"
+    >
+      <!-- firstName -->
+      <div class="form-group">
+        <label for="first-name">First Name: </label>
+        <input
+          id="first-name"
+          type="text"
+          formControlName="firstName"
+          [ngClass]="{
+            'is-invalid':
+              addUserForm.firstName.touched && addUserForm.firstName.errors,
+            'is-valid': addUserForm.firstName.valid
+          }"
+        />
+        <div
+          *ngIf="addUserForm.firstName.touched && addUserForm.firstName.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="addUserForm.firstName.errors.required">
+            First name is required!
+          </div>
+        </div>
+      </div>
+
+      <!-- lastName -->
+      <div class="form-group">
+        <label for="last-name">Last Name: </label>
+        <input
+          id="last-name"
+          type="text"
+          formControlName="lastName"
+          [ngClass]="{
+            'is-invalid':
+              addUserForm.lastName.touched && addUserForm.lastName.errors,
+            'is-valid': addUserForm.lastName.valid
+          }"
+        />
+        <div
+          *ngIf="addUserForm.lastName.touched && addUserForm.lastName.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="addUserForm.lastName.errors.required">
+            Last name is required!
+          </div>
+        </div>
+      </div>
+
+      <!-- email -->
+      <div class="form-group">
+        <label for="last-name">Email address: </label>
+        <input
+          id="email"
+          type="text"
+          formControlName="email"
+          [ngClass]="{
+            'is-invalid': addUserForm.email.touched && addUserForm.email.errors,
+            'is-valid': addUserForm.email.valid
+          }"
+        />
+        <div
+          *ngIf="addUserForm.email.touched && addUserForm.email.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="addUserForm.email.errors.required">
+            Email address is required!
+          </div>
+          <div *ngIf="addUserForm.email.errors.pattern">
+            Email address is incorrect
+          </div>
+        </div>
+      </div>
+
+      <!-- password -->
+      <div class="form-group">
+        <label for="password">Password: </label>
+
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control"
+          name="password"
+          placeholder="Choose a password"
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          [ngClass]="{
+            'is-valid': addUserForm.password.dirty && passwordValid,
+            'is-invalid': addUserForm.password.dirty && !passwordValid
+          }"
+        />
+        <div class="invalid-feedback">
+          <!-- required -->
+          <span
+            class="text-danger"
+            *ngIf="addUserForm.password.dirty && !requiredValid"
+            >Password is required</span
+          >
+
+          <!-- password validation rules -->
+          <div class="mt-3" *ngIf="requiredValid">
+            <!-- minlength -->
+            <div
+              [ngClass]="{
+                'text-success': minLengthValid,
+                'text-danger': !minLengthValid
+              }"
+            >
+              <i
+                [attr.class]="
+                  minLengthValid ? 'bi-check-square-fill' : 'bi-x-square'
+                "
+              ></i>
+              Must be at least 8 characters long
+            </div>
+
+            <!-- requires digit -->
+            <div
+              [ngClass]="{
+                'text-success': requiresDigitValid,
+                'text-danger': !requiresDigitValid
+              }"
+            >
+              <i
+                [attr.class]="
+                  requiresDigitValid ? 'bi-check-square-fill' : 'bi-x-square'
+                "
+              ></i>
+              Must contain at least 1 digit
+            </div>
+
+            <!-- requires uppercase -->
+            <div
+              [ngClass]="{
+                'text-success': requiresUppercaseValid,
+                'text-danger': !requiresUppercaseValid
+              }"
+            >
+              <i
+                [attr.class]="
+                  requiresUppercaseValid
+                    ? 'bi-check-square-fill'
+                    : 'bi-x-square'
+                "
+              ></i>
+              Must contain at least 1 uppercase character
+            </div>
+
+            <!-- requires lowercase -->
+            <div
+              [ngClass]="{
+                'text-success': requiresLowercaseValid,
+                'text-danger': !requiresLowercaseValid
+              }"
+            >
+              <i
+                [attr.class]="
+                  requiresLowercaseValid
+                    ? 'bi-check-square-fill'
+                    : 'bi-x-square'
+                "
+              ></i>
+              Must contain at least 1 lowercase character
+            </div>
+
+            <!-- requires special characters -->
+            <div
+              [ngClass]="{
+                'text-success': requiresSpecialCharsValid,
+                'text-danger': !requiresSpecialCharsValid
+              }"
+            >
+              <i
+                [attr.class]="
+                  requiresSpecialCharsValid
+                    ? 'bi-check-square-fill'
+                    : 'bi-x-square'
+                "
+              ></i>
+              Must contain at least 1 special character
+            </div>
+          </div>
+        </div>
+
+        <button (click)="passwordToggle(true)">
+          {{ showPassword ? "hide" : "show" }}
+        </button>
+      </div>
+
+      <!-- confirm password -->
+      <div class="form-group">
+        <label for="confirmPassword" class="control-label font-weight-bold"
+          >Confirm password</label
+        >
+        <input
+          id="confirmPassword"
+          [type]="showPasswordConfirm ? 'text' : 'password'"
+          formControlName="confirmPassword"
+          class="form-control"
+          name="confirmPassword"
+          placeholder="Confirm your password"
+          [ngClass]="{
+            'is-valid':
+              addUserForm.confirmPassword.dirty &&
+              !addUserForm.confirmPassword.errors,
+            'is-invalid':
+              addUserForm.confirmPassword.dirty &&
+              addUserForm.confirmPassword.errors
+          }"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            addUserForm.confirmPassword.dirty &&
+            addUserForm.confirmPassword.errors
+          "
+        >
+          <div *ngIf="addUserForm.confirmPassword.errors.required">
+            Confirm your password
+          </div>
+          <div *ngIf="addUserForm.confirmPassword.errors.minLength">
+            Password must be at least 8 characters long
+          </div>
+          <div *ngIf="addUserForm.confirmPassword.errors.mismatch">
+            Passwords do not match
+          </div>
+        </div>
+        <button (click)="passwordToggle(false)">
+          {{ showPasswordConfirm ? "hide" : "show" }}
+        </button>
+      </div>
+
+      <!-- formGroupName: address -->
+      <div formGroupName="address">
+        <!-- street -->
+        <div class="form-group">
+          <label for="street">Street: </label>
+          <input id="street" type="text" formControlName="street" />
+        </div>
+
+        <!-- firstName -->
+        <div class="form-group">
+          <label for="city">City: </label>
+          <input id="city" type="text" formControlName="city" />
+        </div>
+
+        <!-- state -->
+        <div class="form-group">
+          <label for="state">State: </label>
+          <input id="state" type="text" formControlName="state" />
+        </div>
+
+        <!-- zip -->
+        <div class="form-group">
+          <label for="zip">Zip Code: </label>
+          <input id="zip" type="text" formControlName="zip" />
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-2"><label>Country</label></div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <select formControlName="country">
+                  <option *ngFor="let country of countries" [ngValue]="country">
+                    {{ country.name }}
+                  </option>
+                </select>
+
+                <!--            <div *ngIf="shippingAddressCountry.invalid && (shippingAddressCountry.dirty || shippingAddressCountry.touched)" class="alert alert-danger mt-1">
+              <div *ngIf="shippingAddressCountry.errors.required">
+                Country is required
+              </div>
+            </div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- userRoles -->
+      <div class="form-group">
+        <div *ngFor="let userRole of userRoles; let i = index">
+          <label>
+            <input
+              type="checkbox"
+              [value]="userRole.id"
+              (change)="onCheckboxChange($event)"
+            />
+            {{ userRole.value }}
+          </label>
+        </div>
+      </div>
+
+      <p>Form value: {{ addUserFormGroup.value | json }}</p>
+
+      <p>Complete the form to enable button.</p>
+      <button type="submit" [disabled]="!addUserFormGroup.valid">Submit</button>
+    </form>
+  </div>
+</div>

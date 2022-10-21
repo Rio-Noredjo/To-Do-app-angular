@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  ToDoApiUrl: "https://localhost:8080/api",
+  toDoApiUrl: "http://localhost:8080/api",
 };
 
 /*
