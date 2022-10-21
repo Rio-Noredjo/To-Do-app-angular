@@ -3,15 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
-import {AppRoutingModule} from "./app-routing.module";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import { AppRoutingModule } from './app-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AccountComponent } from './components/account/account.component';
-import {NgSelectModule} from "@ng-select/ng-select";
-import { AddCustomerComponent } from './components/add-customer/add-customer.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { AddUserComponent } from './components/add-user/add-user.component';
 
 @NgModule({
   declarations: [
@@ -22,8 +22,7 @@ import { AddCustomerComponent } from './components/add-customer/add-customer.com
     AccountComponent,
     LoginComponent,
     HomeComponent,
-    AddCustomerComponent
-
+    AddUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,9 +31,9 @@ import { AddCustomerComponent } from './components/add-customer/add-customer.com
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
