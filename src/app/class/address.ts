@@ -1,8 +1,10 @@
+import {Country} from "./country";
+
 export class Address {
-  street: string;
-  city: string;
   state: string;
-  country: string;
+  city: string;
+  street: string;
   zipCode: string;
+  country: Country;
 
 }

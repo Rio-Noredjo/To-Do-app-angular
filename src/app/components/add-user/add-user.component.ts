@@ -10,6 +10,8 @@ import { UserRole } from '../../enum/user-role';
 import {Country} from "../../class/country";
 import {AddUserService} from "../../services/add-user.service";
 import {CustomValidators} from "../../validators/custom-validators";
+import {User} from "../../class/user";
+import {Address} from "../../class/address";
 
 @Component({
   selector: 'app-add-user',
@@ -36,13 +38,13 @@ export class AddUserComponent implements OnInit {
     }
 
     this.addUserFormGroup = this.fb.group({
-      firstName: ['',
+      firstName: ['Rio',
         [Validators.required, Validators.minLength(2)]],
-      lastName: ['',
+      lastName: ['Noredjo',
         [Validators.required, Validators.minLength(2)]],
-      email: ['',
+      email: ['rio@noredjo.com',
         [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
-      password: ['',
+      password: ['Javaan18!',
         Validators.compose([
           Validators.required,
           Validators.minLength(8),
@@ -59,7 +61,7 @@ export class AddUserComponent implements OnInit {
             requiresSpecialChars: true
           })
         ])],
-      confirmPassword: [null, [
+      confirmPassword: ['Javaan18!', [
         Validators.required,
         Validators.minLength(8)
       ]],
@@ -68,13 +70,13 @@ export class AddUserComponent implements OnInit {
       address: this.fb.group({
         country: ['',
           [Validators.required, Validators.minLength(2)]],
-        street: ['',
+        street: ['Koegelwieck 1',
           [Validators.required, Validators.minLength(2)]],
-        city: ['',
+        city: ['Hoofddorp',
           [Validators.required, Validators.minLength(2)]],
-        state: ['',
+        state: ['Noord Holland',
           [Validators.required, Validators.minLength(2)]],
-        zip: ['',
+        zip: ['2134 XX',
           [Validators.required, Validators.minLength(2)]],
       }),
     },
@@ -86,6 +88,7 @@ export class AddUserComponent implements OnInit {
     this.addUserService.getCountries().subscribe(
       data => {
         this.countries = data;
+        console.log('Retrieved countries: ' + JSON.stringify(data));
       }
     );
   }
@@ -126,7 +129,26 @@ export class AddUserComponent implements OnInit {
   }
 
   onSubmit() {
-    console.warn(this.addUserFormGroup.value);
+    let user = new User();
+    user.address = this.addUserFormGroup.controls.address.value
+    const country: Country = JSON.parse(JSON.stringify(user.address .country))
+    user.address.country = country
+    user.firstName = this.addUserFormGroup.controls.firstName.value
+    user.lastName = this.addUserFormGroup.controls.lastName.value
+    user.email = this.addUserFormGroup.controls.email.value
+    user.password = this.addUserFormGroup.controls.password.value
+    user.userRoles = this.addUserFormGroup.controls.userRoles.value
+
+    console.log(user)
+
+    this.addUserService.addUser(user).subscribe({
+      next: response => {
+        alert(`gelukt`);
+      },
+      error: err => {
+        alert(`There is an error: ${err.message}`)
+      }
+    });
 
   }
 
