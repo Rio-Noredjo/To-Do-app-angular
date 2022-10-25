@@ -1,5 +1,32 @@
-<div class="row justify-content-sm-center">
-  <div class="col-sm-6">
+<div class="row justify-content-center p-3">
+  <div class="col-5">
+    <h3>Add user</h3>
+    <p>On this page you can add a user.</p>
+    <ul>
+      <li>All fields are required</li>
+      <li>Whitespace texts are not possible. Custom validation is used</li>
+      <li>Email address must be unique</li>
+      <li>Password must be entered twice for verification</li>
+      <li>
+        The values of country are stored a table in a MySQL database, See to-do
+        schema in MySQL
+      </li>
+      <li>The values of user roles are in an ENUM in Angular</li>
+      <li>'Submit' button will be enabled once all values are correct</li>
+      <li>
+        Angular sends the data to a spring boot application and spring boot
+        ensures that the data is stored in the database
+      </li>
+      <li>
+        The user is stored in the database. See schedule to-do for more info
+      </li>
+      <li>
+        For more info about the back end of the application see the
+        To-Do-app-springboot application
+      </li>
+    </ul>
+  </div>
+  <div class="col-5">
     <form
       [formGroup]="addUserFormGroup"
       (ngSubmit)="onSubmit()"
@@ -7,261 +34,358 @@
       autocomplete="off"
     >
       <!-- firstName -->
-      <div class="form-group">
-        <label for="first-name">First Name: </label>
+      <div class="form-group form-outline mb-3">
         <input
+          class="form-control"
+          placeholder="First name"
           id="first-name"
           type="text"
           formControlName="firstName"
           [ngClass]="{
-            'is-invalid':
-              addUserForm.firstName.touched && addUserForm.firstName.errors,
-            'is-valid': addUserForm.firstName.valid
+            'is-invalid': getFirstName.touched && getFirstName.errors,
+            'is-valid': getFirstName.valid
           }"
         />
         <div
-          *ngIf="addUserForm.firstName.touched && addUserForm.firstName.errors"
+          *ngIf="getFirstName.touched && getFirstName.errors"
           class="invalid-feedback"
         >
-          <div *ngIf="addUserForm.firstName.errors.required">
+          <div
+            *ngIf="
+              getFirstName.errors.required ||
+              getFirstName.errors.notOnlyWhitespace
+            "
+          >
             First name is required!
           </div>
         </div>
       </div>
 
       <!-- lastName -->
-      <div class="form-group">
-        <label for="last-name">Last Name: </label>
+      <div class="form-group form-outline mb-3">
         <input
+          class="form-control"
+          placeholder="Last Name"
           id="last-name"
           type="text"
           formControlName="lastName"
           [ngClass]="{
-            'is-invalid':
-              addUserForm.lastName.touched && addUserForm.lastName.errors,
-            'is-valid': addUserForm.lastName.valid
+            'is-invalid': getLastName.touched && getLastName.errors,
+            'is-valid': getLastName.valid
           }"
         />
         <div
-          *ngIf="addUserForm.lastName.touched && addUserForm.lastName.errors"
+          *ngIf="getLastName.touched && getLastName.errors"
           class="invalid-feedback"
         >
-          <div *ngIf="addUserForm.lastName.errors.required">
+          <div
+            *ngIf="
+              getLastName.errors.required ||
+              getLastName.errors.notOnlyWhitespace
+            "
+          >
             Last name is required!
           </div>
         </div>
       </div>
 
       <!-- email -->
-      <div class="form-group">
-        <label for="last-name">Email address: </label>
+      <div class="form-group form-outline mb-3">
         <input
+          class="form-control"
+          placeholder="Email address"
           id="email"
           type="text"
           formControlName="email"
           [ngClass]="{
-            'is-invalid': addUserForm.email.touched && addUserForm.email.errors,
-            'is-valid': addUserForm.email.valid
+            'is-invalid': getEmail.touched && getEmail.errors,
+            'is-valid': getEmail.valid
           }"
+          (focusout)="checkUserAlreadyExist($event)"
         />
         <div
-          *ngIf="addUserForm.email.touched && addUserForm.email.errors"
+          *ngIf="getEmail.touched && getEmail.errors"
           class="invalid-feedback"
         >
-          <div *ngIf="addUserForm.email.errors.required">
-            Email address is required!
-          </div>
-          <div *ngIf="addUserForm.email.errors.pattern">
-            Email address is incorrect
+          <div *ngIf="getEmail.errors.required">Email address is required!</div>
+          <div *ngIf="getEmail.errors.pattern">Email address is incorrect</div>
+          <div *ngIf="getEmail.errors.userAlreadyExist">
+            User with this email address already exist.
           </div>
         </div>
       </div>
 
       <!-- password -->
-      <div class="form-group">
-        <label for="password">Password: </label>
-
-        <input
-          type="password"
-          formControlName="password"
-          class="form-control"
-          name="password"
-          placeholder="Choose a password"
-          [type]="showPassword ? 'text' : 'password'"
-          id="password"
-          [ngClass]="{
-            'is-valid': addUserForm.password.dirty && passwordValid,
-            'is-invalid': addUserForm.password.dirty && !passwordValid
-          }"
-        />
-        <div class="invalid-feedback">
-          <!-- required -->
-          <span
-            class="text-danger"
-            *ngIf="addUserForm.password.dirty && !requiredValid"
-            >Password is required</span
-          >
-
-          <!-- password validation rules -->
-          <div class="mt-3" *ngIf="requiredValid">
-            <!-- minlength -->
-            <div
+      <div class="form-group form-outline mb-3">
+        <div class="row">
+          <div class="col-9">
+            <input
+              class="form-control"
+              type="password"
+              formControlName="password"
+              id="password"
+              placeholder="Choose a password"
+              [type]="showPassword ? 'text' : 'password'"
               [ngClass]="{
-                'text-success': minLengthValid,
-                'text-danger': !minLengthValid
+                'is-valid': getPassword.dirty && passwordValid,
+                'is-invalid': getPassword.dirty && !passwordValid
               }"
-            >
-              <i
-                [attr.class]="
-                  minLengthValid ? 'bi-check-square-fill' : 'bi-x-square'
-                "
-              ></i>
-              Must be at least 8 characters long
-            </div>
+            />
+            <div class="invalid-feedback">
+              <!-- required -->
+              <span
+                class="text-danger"
+                *ngIf="getPassword.dirty && !requiredValid"
+                >Password is required</span
+              >
 
-            <!-- requires digit -->
-            <div
-              [ngClass]="{
-                'text-success': requiresDigitValid,
-                'text-danger': !requiresDigitValid
-              }"
-            >
-              <i
-                [attr.class]="
-                  requiresDigitValid ? 'bi-check-square-fill' : 'bi-x-square'
-                "
-              ></i>
-              Must contain at least 1 digit
-            </div>
+              <!-- password validation rules -->
+              <div class="mt-3" *ngIf="requiredValid">
+                <!-- minlength -->
+                <div
+                  [ngClass]="{
+                    'text-success': minLengthValid,
+                    'text-danger': !minLengthValid
+                  }"
+                >
+                  <i
+                    [attr.class]="
+                      minLengthValid ? 'bi-check-square-fill' : 'bi-x-square'
+                    "
+                  ></i>
+                  Must be at least 8 characters long
+                </div>
 
-            <!-- requires uppercase -->
-            <div
-              [ngClass]="{
-                'text-success': requiresUppercaseValid,
-                'text-danger': !requiresUppercaseValid
-              }"
-            >
-              <i
-                [attr.class]="
-                  requiresUppercaseValid
-                    ? 'bi-check-square-fill'
-                    : 'bi-x-square'
-                "
-              ></i>
-              Must contain at least 1 uppercase character
-            </div>
+                <!-- requires digit -->
+                <div
+                  [ngClass]="{
+                    'text-success': requiresDigitValid,
+                    'text-danger': !requiresDigitValid
+                  }"
+                >
+                  <i
+                    [attr.class]="
+                      requiresDigitValid
+                        ? 'bi-check-square-fill'
+                        : 'bi-x-square'
+                    "
+                  ></i>
+                  Must contain at least 1 digit
+                </div>
 
-            <!-- requires lowercase -->
-            <div
-              [ngClass]="{
-                'text-success': requiresLowercaseValid,
-                'text-danger': !requiresLowercaseValid
-              }"
-            >
-              <i
-                [attr.class]="
-                  requiresLowercaseValid
-                    ? 'bi-check-square-fill'
-                    : 'bi-x-square'
-                "
-              ></i>
-              Must contain at least 1 lowercase character
-            </div>
+                <!-- requires uppercase -->
+                <div
+                  [ngClass]="{
+                    'text-success': requiresUppercaseValid,
+                    'text-danger': !requiresUppercaseValid
+                  }"
+                >
+                  <i
+                    [attr.class]="
+                      requiresUppercaseValid
+                        ? 'bi-check-square-fill'
+                        : 'bi-x-square'
+                    "
+                  ></i>
+                  Must contain at least 1 uppercase character
+                </div>
 
-            <!-- requires special characters -->
-            <div
-              [ngClass]="{
-                'text-success': requiresSpecialCharsValid,
-                'text-danger': !requiresSpecialCharsValid
-              }"
-            >
-              <i
-                [attr.class]="
-                  requiresSpecialCharsValid
-                    ? 'bi-check-square-fill'
-                    : 'bi-x-square'
-                "
-              ></i>
-              Must contain at least 1 special character
+                <!-- requires lowercase -->
+                <div
+                  [ngClass]="{
+                    'text-success': requiresLowercaseValid,
+                    'text-danger': !requiresLowercaseValid
+                  }"
+                >
+                  <i
+                    [attr.class]="
+                      requiresLowercaseValid
+                        ? 'bi-check-square-fill'
+                        : 'bi-x-square'
+                    "
+                  ></i>
+                  Must contain at least 1 lowercase character
+                </div>
+
+                <!-- requires special characters -->
+                <div
+                  [ngClass]="{
+                    'text-success': requiresSpecialCharsValid,
+                    'text-danger': !requiresSpecialCharsValid
+                  }"
+                >
+                  <i
+                    [attr.class]="
+                      requiresSpecialCharsValid
+                        ? 'bi-check-square-fill'
+                        : 'bi-x-square'
+                    "
+                  ></i>
+                  Must contain at least 1 special character
+                </div>
+              </div>
             </div>
           </div>
+          <div class="col-auto">
+            <button (click)="passwordToggle(true)" class="btn btn-secondary">
+              {{ showPassword ? "hide" : "show" }}
+            </button>
+          </div>
         </div>
-
-        <button (click)="passwordToggle(true)">
-          {{ showPassword ? "hide" : "show" }}
-        </button>
       </div>
 
       <!-- confirm password -->
-      <div class="form-group">
-        <label for="confirmPassword" class="control-label font-weight-bold"
-          >Confirm password</label
-        >
-        <input
-          id="confirmPassword"
-          [type]="showPasswordConfirm ? 'text' : 'password'"
-          formControlName="confirmPassword"
-          class="form-control"
-          name="confirmPassword"
-          placeholder="Confirm your password"
-          [ngClass]="{
-            'is-valid':
-              addUserForm.confirmPassword.dirty &&
-              !addUserForm.confirmPassword.errors,
-            'is-invalid':
-              addUserForm.confirmPassword.dirty &&
-              addUserForm.confirmPassword.errors
-          }"
-        />
-        <div
-          class="invalid-feedback"
-          *ngIf="
-            addUserForm.confirmPassword.dirty &&
-            addUserForm.confirmPassword.errors
-          "
-        >
-          <div *ngIf="addUserForm.confirmPassword.errors.required">
-            Confirm your password
+      <div class="form-group form-outline mb-3">
+        <div class="row">
+          <div class="col-9">
+            <input
+              class="form-control"
+              id="confirmPassword"
+              [type]="showPasswordConfirm ? 'text' : 'password'"
+              formControlName="confirmPassword"
+              placeholder="Confirm your password"
+              [ngClass]="{
+                'is-valid':
+                  getConfirmPassword.dirty && !getConfirmPassword.errors,
+                'is-invalid':
+                  getConfirmPassword.dirty && getConfirmPassword.errors
+              }"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="getConfirmPassword.dirty && getConfirmPassword.errors"
+            >
+              <div *ngIf="getConfirmPassword.errors.required">
+                Confirm your password
+              </div>
+              <div *ngIf="getConfirmPassword.errors.minLength">
+                Password must be at least 8 characters long
+              </div>
+              <div *ngIf="getConfirmPassword.errors.mismatch">
+                Passwords do not match
+              </div>
+            </div>
           </div>
-          <div *ngIf="addUserForm.confirmPassword.errors.minLength">
-            Password must be at least 8 characters long
-          </div>
-          <div *ngIf="addUserForm.confirmPassword.errors.mismatch">
-            Passwords do not match
+          <div class="col-auto">
+            <button (click)="passwordToggle(false)" class="btn btn-secondary">
+              {{ showPasswordConfirm ? "hide" : "show" }}
+            </button>
           </div>
         </div>
-        <button (click)="passwordToggle(false)">
-          {{ showPasswordConfirm ? "hide" : "show" }}
-        </button>
       </div>
 
       <!-- formGroupName: address -->
       <div formGroupName="address">
-        <!-- street -->
-        <div class="form-group">
-          <label for="street">Street: </label>
-          <input id="street" type="text" formControlName="street" />
+        <!-- Street -->
+        <div class="form-group form-outline mb-3">
+          <input
+            class="form-control"
+            placeholder="Street"
+            id="street"
+            type="text"
+            formControlName="street"
+            [ngClass]="{
+              'is-invalid': getStreet.touched && getStreet.errors,
+              'is-valid': getStreet.valid
+            }"
+          />
+          <div
+            *ngIf="getStreet.touched && getStreet.errors"
+            class="invalid-feedback"
+          >
+            <div
+              *ngIf="
+                getStreet.errors.required || getStreet.errors.notOnlyWhitespace
+              "
+            >
+              Street is required!
+            </div>
+          </div>
         </div>
 
-        <!-- firstName -->
-        <div class="form-group">
-          <label for="city">City: </label>
-          <input id="city" type="text" formControlName="city" />
+        <!-- City -->
+        <div class="form-group form-outline mb-3">
+          <input
+            class="form-control"
+            placeholder="City"
+            id="city"
+            type="text"
+            formControlName="city"
+            [ngClass]="{
+              'is-invalid': getCity.touched && getCity.errors,
+              'is-valid': getCity.valid
+            }"
+          />
+          <div
+            *ngIf="getCity.touched && getCity.errors"
+            class="invalid-feedback"
+          >
+            <div
+              *ngIf="
+                getCity.errors.required || getCity.errors.notOnlyWhitespace
+              "
+            >
+              City is required!
+            </div>
+          </div>
         </div>
 
         <!-- state -->
-        <div class="form-group">
-          <label for="state">State: </label>
-          <input id="state" type="text" formControlName="state" />
+        <div class="form-group form-outline mb-3">
+          <input
+            class="form-control"
+            placeholder="State"
+            id="state"
+            type="text"
+            formControlName="state"
+            [ngClass]="{
+              'is-invalid': getState.touched && getState.errors,
+              'is-valid': getState.valid
+            }"
+          />
+          <div
+            *ngIf="getState.touched && getState.errors"
+            class="invalid-feedback"
+          >
+            <div
+              *ngIf="
+                getState.errors.required || getState.errors.notOnlyWhitespace
+              "
+            >
+              City is required!
+            </div>
+          </div>
         </div>
 
         <!-- zip -->
-        <div class="form-group">
-          <label for="zip">Zip Code: </label>
-          <input id="zip" type="text" formControlName="zip" />
+        <div class="form-group form-outline mb-3">
+          <input
+            class="form-control"
+            placeholder="Zip code"
+            id="zipCode"
+            type="text"
+            formControlName="zipCode"
+            [ngClass]="{
+              'is-invalid': getZipCode.touched && getZipCode.errors,
+              'is-valid': getZipCode.valid
+            }"
+          />
+          <div
+            *ngIf="getZipCode.touched && getZipCode.errors"
+            class="invalid-feedback"
+          >
+            <div
+              *ngIf="
+                getZipCode.errors.required ||
+                getZipCode.errors.notOnlyWhitespace
+              "
+            >
+              Zip code is required!
+            </div>
+          </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-outline mb-3">
           <div class="row">
             <div class="col-md-2"><label>Country</label></div>
             <div class="col-md-9">
@@ -271,12 +395,6 @@
                     {{ country.name }}
                   </option>
                 </select>
-
-                <!--            <div *ngIf="shippingAddressCountry.invalid && (shippingAddressCountry.dirty || shippingAddressCountry.touched)" class="alert alert-danger mt-1">
-              <div *ngIf="shippingAddressCountry.errors.required">
-                Country is required
-              </div>
-            </div>-->
               </div>
             </div>
           </div>
@@ -285,6 +403,7 @@
 
       <!-- userRoles -->
       <div class="form-group">
+        <label>User roles</label>
         <div *ngFor="let userRole of userRoles; let i = index">
           <label>
             <input
@@ -292,15 +411,19 @@
               [value]="userRole.id"
               (change)="onCheckboxChange($event)"
             />
-            {{ userRole.value}}
+            {{ userRole.value }}
           </label>
         </div>
       </div>
-
-      <p>Form value: {{ addUserFormGroup.value | json }}</p>
-
+      <br />
       <p>Complete the form to enable button.</p>
-      <button type="submit" [disabled]="!addUserFormGroup.valid">Submit</button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!addUserFormGroup.valid"
+      >
+        Submit
+      </button>
     </form>
   </div>
 </div>

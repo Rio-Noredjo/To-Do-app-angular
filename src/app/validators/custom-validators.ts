@@ -1,10 +1,19 @@
-import {AbstractControl, ValidationErrors, ValidatorFn} from "@angular/forms";
+import { FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class CustomValidators {
-
+  static notOnlyWhitespace(control: FormControl): ValidationErrors {
+    // check if string only contains whitespace
+    if (control.value != null && control.value.trim().length === 0) {
+      // invalid, return error object
+      return { notOnlyWhitespace: true };
+    } else {
+      // valid, return null
+      return null;
+    }
+  }
 
   static patternValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } => {
+    return (control: FormControl): { [key: string]: any } => {
       if (!control.value) {
         // if the control value is empty return no error.
         return null;
@@ -18,9 +27,9 @@ export class CustomValidators {
     };
   }
 
-  static MatchValidator(control: AbstractControl) {
-    const password: string = control.get("password").value; // get password from our password form control
-    const confirmPassword: string = control.get("confirmPassword").value; // get password from our confirmPassword form control
+  static MatchValidator(control: FormControl) {
+    const password: string = control.get('password').value; // get password from our password form control
+    const confirmPassword: string = control.get('confirmPassword').value; // get password from our confirmPassword form control
 
     // if the confirmPassword value is null or empty, don't return an error.
     if (!confirmPassword?.length) {
@@ -33,12 +42,11 @@ export class CustomValidators {
     } else {
       // compare the passwords and see if they match.
       if (password !== confirmPassword) {
-        control.get("confirmPassword").setErrors({ mismatch: true });
+        control.get('confirmPassword').setErrors({ mismatch: true });
       } else {
         // if passwords match, don't return an error.
         return null;
       }
     }
   }
-
 }

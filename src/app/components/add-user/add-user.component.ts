@@ -7,11 +7,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { UserRole } from '../../enum/user-role';
-import {Country} from "../../class/country";
-import {AddUserService} from "../../services/add-user.service";
-import {CustomValidators} from "../../validators/custom-validators";
-import {User} from "../../class/user";
-import {Address} from "../../class/address";
+import { Country } from '../../class/country';
+import { AddUserService } from '../../services/add-user.service';
+import { CustomValidators } from '../../validators/custom-validators';
+import { User } from '../../class/user';
 
 @Component({
   selector: 'app-add-user',
@@ -24,11 +23,13 @@ export class AddUserComponent implements OnInit {
   countries: Country[] = [];
   userRoles: { id: string; value: string }[] = [];
 
-  showPassword = false
-  showPasswordConfirm = false
+  showPassword = false;
+  showPasswordConfirm = false;
 
-  constructor(private fb: FormBuilder,
-              private addUserService: AddUserService) {}
+  constructor(
+    private fb: FormBuilder,
+    private addUserService: AddUserService
+  ) {}
 
   ngOnInit(): void {
     for (let i in UserRole) {
@@ -37,119 +38,180 @@ export class AddUserComponent implements OnInit {
       // }
     }
 
-    this.addUserFormGroup = this.fb.group({
-      firstName: ['Rio',
-        [Validators.required, Validators.minLength(2)]],
-      lastName: ['Noredjo',
-        [Validators.required, Validators.minLength(2)]],
-      email: ['rio@noredjo.com',
-        [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
-      password: ['Javaan18!',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(8),
-          CustomValidators.patternValidator(new RegExp("(?=.*[0-9])"), {
-            requiresDigit: true
-          }),
-          CustomValidators.patternValidator(new RegExp("(?=.*[A-Z])"), {
-            requiresUppercase: true
-          }),
-          CustomValidators.patternValidator(new RegExp("(?=.*[a-z])"), {
-            requiresLowercase: true
-          }),
-          CustomValidators.patternValidator(new RegExp("(?=.*[$@^!%*?&])"), {
-            requiresSpecialChars: true
-          })
-        ])],
-      confirmPassword: ['Javaan18!', [
-        Validators.required,
-        Validators.minLength(8)
-      ]],
-      userRoles: this.fb.array([],
-        [Validators.required]),
-      address: this.fb.group({
-        country: ['',
-          [Validators.required, Validators.minLength(2)]],
-        street: ['Koegelwieck 1',
-          [Validators.required, Validators.minLength(2)]],
-        city: ['Hoofddorp',
-          [Validators.required, Validators.minLength(2)]],
-        state: ['Noord Holland',
-          [Validators.required, Validators.minLength(2)]],
-        zip: ['2134 XX',
-          [Validators.required, Validators.minLength(2)]],
-      }),
-    },
+    this.addUserFormGroup = this.fb.group(
       {
-        validators: CustomValidators.MatchValidator
-      });
-
-    // populate countries
-    this.addUserService.getCountries().subscribe(
-      data => {
-        this.countries = data;
-        console.log('Retrieved countries: ' + JSON.stringify(data));
+        firstName: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(2),
+            CustomValidators.notOnlyWhitespace,
+          ],
+        ],
+        lastName: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(2),
+            CustomValidators.notOnlyWhitespace,
+          ],
+        ],
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'),
+            CustomValidators.notOnlyWhitespace,
+          ],
+        ],
+        password: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(8),
+            CustomValidators.patternValidator(new RegExp('(?=.*[0-9])'), {
+              requiresDigit: true,
+            }),
+            CustomValidators.patternValidator(new RegExp('(?=.*[A-Z])'), {
+              requiresUppercase: true,
+            }),
+            CustomValidators.patternValidator(new RegExp('(?=.*[a-z])'), {
+              requiresLowercase: true,
+            }),
+            CustomValidators.patternValidator(new RegExp('(?=.*[$@^!%*?&])'), {
+              requiresSpecialChars: true,
+            }),
+          ]),
+        ],
+        confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+        userRoles: this.fb.array([], [Validators.required]),
+        address: this.fb.group({
+          country: ['', [Validators.required, Validators.minLength(2)]],
+          street: [
+            '',
+            [
+              Validators.required,
+              Validators.minLength(2),
+              CustomValidators.notOnlyWhitespace,
+            ],
+          ],
+          city: [
+            '',
+            [
+              Validators.required,
+              Validators.minLength(2),
+              CustomValidators.notOnlyWhitespace,
+            ],
+          ],
+          state: [
+            '',
+            [
+              Validators.required,
+              Validators.minLength(2),
+              CustomValidators.notOnlyWhitespace,
+            ],
+          ],
+          zipCode: [
+            '',
+            [
+              Validators.required,
+              Validators.minLength(2),
+              CustomValidators.notOnlyWhitespace,
+            ],
+          ],
+        }),
+      },
+      {
+        validators: CustomValidators.MatchValidator,
       }
     );
+
+    this.addUserService.getCountries().subscribe((data) => {
+      this.countries = data;
+    });
   }
 
-  get addUserForm() {
-    return this.addUserFormGroup.controls;
+  get getFirstName() {
+    return this.addUserFormGroup.get('firstName');
   }
-
-  get password() { return this.addUserFormGroup.controls["password"]; }
-
+  get getLastName() {
+    return this.addUserFormGroup.get('lastName');
+  }
+  get getEmail() {
+    return this.addUserFormGroup.get('email');
+  }
+  get getPassword() {
+    return this.addUserFormGroup.get('password');
+  }
+  get getConfirmPassword() {
+    return this.addUserFormGroup.get('confirmPassword');
+  }
+  get getStreet() {
+    return this.addUserFormGroup.get('address.street');
+  }
+  get getCity() {
+    return this.addUserFormGroup.get('address.city');
+  }
+  get getState() {
+    return this.addUserFormGroup.get('address.state');
+  }
+  get getZipCode() {
+    return this.addUserFormGroup.get('address.zipCode');
+  }
 
   get passwordValid() {
-    return this.password.errors === null;
+    return this.getPassword.errors === null;
   }
 
   get requiredValid() {
-    return !this.password.hasError("required");
+    return !this.getPassword.hasError('required');
   }
 
   get minLengthValid() {
-    return !this.password.hasError("minlength");
+    return !this.getPassword.hasError('minlength');
   }
 
   get requiresDigitValid() {
-    return !this.password.hasError("requiresDigit");
+    return !this.getPassword.hasError('requiresDigit');
   }
 
   get requiresUppercaseValid() {
-    return !this.password.hasError("requiresUppercase");
+    return !this.getPassword.hasError('requiresUppercase');
   }
 
   get requiresLowercaseValid() {
-    return !this.password.hasError("requiresLowercase");
+    return !this.getPassword.hasError('requiresLowercase');
   }
 
   get requiresSpecialCharsValid() {
-    return !this.password.hasError("requiresSpecialChars");
+    return !this.getPassword.hasError('requiresSpecialChars');
   }
 
   onSubmit() {
-    let user = new User();
-    user.address = this.addUserFormGroup.controls.address.value
-    const country: Country = JSON.parse(JSON.stringify(user.address .country))
-    user.address.country = country
-    user.firstName = this.addUserFormGroup.controls.firstName.value
-    user.lastName = this.addUserFormGroup.controls.lastName.value
-    user.email = this.addUserFormGroup.controls.email.value
-    user.password = this.addUserFormGroup.controls.password.value
-    user.userRoles = this.addUserFormGroup.controls.userRoles.value
+    if (this.addUserFormGroup.invalid) {
+      this.addUserFormGroup.markAllAsTouched();
+      return;
+    }
 
-    console.log(user)
+    let user = new User();
+    user.address = this.addUserFormGroup.controls.address.value;
+    user.address.country = JSON.parse(JSON.stringify(user.address.country));
+    user.firstName = this.addUserFormGroup.controls.firstName.value;
+    user.lastName = this.addUserFormGroup.controls.lastName.value;
+    user.email = this.addUserFormGroup.controls.email.value;
+    user.password = this.addUserFormGroup.controls.password.value;
+    user.userRoles = this.addUserFormGroup.controls.userRoles.value.toString();
 
     this.addUserService.addUser(user).subscribe({
-      next: response => {
-        alert(`gelukt`);
+      next: (response) => {
+        // reset the form
+        this.addUserFormGroup.reset();
+        alert(`New client with ID: ${response.id}`);
       },
-      error: err => {
-        alert(`There is an error: ${err.message}`)
-      }
+      error: (err) => {
+        alert(`There is an error: ${err.message}`);
+      },
     });
-
   }
 
   onCheckboxChange(e) {
@@ -170,12 +232,23 @@ export class AddUserComponent implements OnInit {
     }
   }
 
-// click event function toggle
   passwordToggle(password) {
-    if(password){
+    if (password) {
       this.showPassword = !this.showPassword;
     } else {
       this.showPasswordConfirm = !this.showPasswordConfirm;
+    }
+  }
+
+  checkUserAlreadyExist(event) {
+    if (event.target.value !== null) {
+      this.addUserService
+        .findUserByEmail(event.target.value)
+        .subscribe((data) => {
+          if (data !== null && this.getEmail.errors === null) {
+            this.getEmail.setErrors({ userAlreadyExist: true });
+          }
+        });
     }
   }
 }

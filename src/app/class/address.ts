@@ -1,4 +1,4 @@
-import {Country} from "./country";
+import { Country } from './country';
 
 export class Address {
   state: string;
@@ -6,5 +6,4 @@ export class Address {
   street: string;
   zipCode: string;
   country: Country;
-
 }

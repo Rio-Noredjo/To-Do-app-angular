@@ -1,11 +1,10 @@
-import {Address} from "./address";
+import { Address } from './address';
 
 export class User {
-  firstName: string
-  lastName: string
-  email: string
-  password: string
-  userRoles: string
-  address: Address
-
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  userRoles: string;
+  address: Address;
 }
