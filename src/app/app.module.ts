@@ -11,7 +11,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AccountComponent } from './components/account/account.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { AddUserComponent } from './components/add-user/add-user.component';
+import { UsersComponent } from './components/users/users.component';
+import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AddUserComponent } from './components/add-user/add-user.component';
     AccountComponent,
     LoginComponent,
     HomeComponent,
-    AddUserComponent,
+    AddEditUserComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
