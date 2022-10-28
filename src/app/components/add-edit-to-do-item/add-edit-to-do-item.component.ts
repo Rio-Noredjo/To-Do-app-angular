@@ -6,6 +6,8 @@ import {Category} from "../../class/category";
 import {AddEditItemService} from "../../services/add-edit-item.service";
 import {Item} from "../../class/item";
 import {ItemCategory} from "../../class/item-category";
+import {ActivatedRoute} from "@angular/router";
+import {User} from "../../class/user";
 
 @Component({
   selector: 'app-add-edit-to-do-item',
@@ -16,11 +18,34 @@ export class AddEditToDoItemComponent implements OnInit {
   addEditItemFormGroup: FormGroup;
   statuses : Status[] = []
   categories : Category[] = []
+  itemId: number
+  itemCategory: ItemCategory
+  isAddMode: boolean;
+  user: User;
 
   constructor( private fb: FormBuilder,
+               private route: ActivatedRoute,
                private addEditItemService : AddEditItemService) { }
 
   ngOnInit(): void {
+    this.itemId = this.route.snapshot.params['id'];
+    this.isAddMode = !this.itemId;
+
+    if(!this.isAddMode){
+      this.addEditItemService.getItem(this.itemId).subscribe((response) => {
+        this.itemCategory = response;
+        this.user = this.itemCategory.item.user
+          this.getTitle.setValue(this.itemCategory.item.title)
+        this.getContent.setValue(this.itemCategory.item.content)
+        for (let i in Status) {
+          if(this.itemCategory.item.status == Status[i]){
+            this.getStatus.setValue(Status[i])
+          }
+        }
+        this.getCategory.setValue(this.itemCategory.categories);
+      });
+    }
+
     for (let i in Status) {
       this.statuses.push(Status[i]);
     }
@@ -52,18 +77,35 @@ export class AddEditToDoItemComponent implements OnInit {
     item.title = this.getTitle.value
     item.content = this.getContent.value
     item.status = this.getStatus.value
+    if(!this.isAddMode){
+      item.user = this.user
+      item.id = this.itemId
+    }
     itemCategory.item = item
     itemCategory.categories = this.getCategory.value
 
-    this.addEditItemService.addItem(itemCategory,2).subscribe({
-      next: (response) => {
-        window.location.reload();
-        alert(`New Item added: ${response.item.id}`);
-      },
-      error: (err) => {
-        alert(`New Item added: ${err.error}`);
-      },
-    });
+    if(this.isAddMode){
+      this.addEditItemService.addItem(itemCategory,2).subscribe({
+        next: (response) => {
+          this.ngOnInit();
+          alert(`New Item added: ${response.id}`);
+        },
+        error: (err) => {
+          alert(`New Item added: ${err.error}`);
+        },
+      });
+    } else {
+      this.addEditItemService.updateItem(itemCategory).subscribe({
+        next: (response) => {
+          this.ngOnInit();
+          console.log(response.id)
+          alert(`item updated: ${response.id}`);
+        },
+        error: (err) => {
+          alert(`item updated: ${err.error}`);
+        },
+      });
+    }
   }
 
   get getTitle() { return this.addEditItemFormGroup.get('title'); }

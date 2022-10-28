@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'users/add', component: AddEditUserComponent },
   { path: 'users/edit/:id', component: AddEditUserComponent },
   { path: 'items/add', component: AddEditToDoItemComponent },
+  { path: 'items/edit/:id', component: AddEditToDoItemComponent },
   { path: '**', redirectTo: 'home' },
 ];
 
