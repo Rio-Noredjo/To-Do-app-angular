@@ -13,6 +13,7 @@ import { AccountComponent } from './components/account/account.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { UsersComponent } from './components/users/users.component';
 import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.component';
+import { AddEditToDoItemComponent } from './components/add-edit-to-do-item/add-edit-to-do-item.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.c
     LoginComponent,
     HomeComponent,
     AddEditUserComponent,
-    UsersComponent
+    UsersComponent,
+    AddEditToDoItemComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,7 @@ import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.c
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgSelectModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],

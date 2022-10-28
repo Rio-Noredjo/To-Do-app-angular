@@ -29,7 +29,7 @@
   </div>
   <div class="col-5">
     <form
-      [formGroup]="addUserFormGroup"
+      [formGroup]="addEditUserFormGroup"
       (ngSubmit)="onSubmit()"
       novalidate
       autocomplete="off"
@@ -265,7 +265,6 @@
                   <option
                     *ngFor="let country of countries"
                     [ngValue]="country"
-                    selected
                   >
                     {{ country.name }}
                   </option>
@@ -401,7 +400,7 @@
         </div>
         <p
           class="error text-danger"
-          *ngIf="this.addUserFormGroup.controls['userRoles'].errors?.['required']"
+          *ngIf="this.addEditUserFormGroup.controls['userRoles'].errors?.['required']"
         >
           Checkbox is required, select atleast one value.
         </p>
@@ -412,7 +411,7 @@
       <button
         type="submit"
         class="btn btn-primary"
-        [disabled]="!addUserFormGroup.valid"
+        [disabled]="!addEditUserFormGroup.valid"
       >
         Submit
       </button>

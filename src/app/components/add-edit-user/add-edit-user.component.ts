@@ -14,7 +14,7 @@ import {AddEditUserService} from "../../services/add-edit-user.service";
   styleUrls: ['./add-edit-user.component.css']
 })
 export class AddEditUserComponent implements OnInit {
-  addUserFormGroup: FormGroup;
+  addEditUserFormGroup: FormGroup;
 
   countries: Country[] = [];
   userRoles: { id: string; value: string; isChecked: boolean }[] = [];
@@ -40,20 +40,20 @@ export class AddEditUserComponent implements OnInit {
       this.userRoles.push({ id: i, value: <any>UserRole[i], isChecked: false });
     }
 
-    this.addUserFormGroup = this.fb.group(
+    this.addEditUserFormGroup = this.fb.group(
       {
         firstName: ['',
           [Validators.required,
             Validators.minLength(2),
-            CustomValidators.notOnlyWhitespace,],],
+            CustomValidators.notOnlyWhitespace]],
         lastName: ['',
           [Validators.required,
             Validators.minLength(2),
-            CustomValidators.notOnlyWhitespace,],],
+            CustomValidators.notOnlyWhitespace]],
         email: ['',
           [Validators.required,
             Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'),
-            CustomValidators.notOnlyWhitespace,],],
+            CustomValidators.notOnlyWhitespace]],
         password: ['',
           Validators.compose([
             Validators.required,
@@ -75,19 +75,19 @@ export class AddEditUserComponent implements OnInit {
           street: ['',
             [Validators.required,
               Validators.minLength(2),
-              CustomValidators.notOnlyWhitespace,],],
+              CustomValidators.notOnlyWhitespace]],
           city: ['',
             [Validators.required,
               Validators.minLength(2),
-              CustomValidators.notOnlyWhitespace,],],
+              CustomValidators.notOnlyWhitespace]],
           state: ['',
             [Validators.required,
               Validators.minLength(2),
-              CustomValidators.notOnlyWhitespace,],],
+              CustomValidators.notOnlyWhitespace]],
           zipCode: ['',
             [Validators.required,
               Validators.minLength(2),
-              CustomValidators.notOnlyWhitespace, ],],
+              CustomValidators.notOnlyWhitespace]],
         }),
       },
       { validators: CustomValidators.MatchValidator}
@@ -100,18 +100,18 @@ export class AddEditUserComponent implements OnInit {
     if (!this.isAddMode) { this.retrieveUser(this.id); }
   }
 
-  get getFirstName() { return this.addUserFormGroup.get('firstName'); }
-  get getLastName() { return this.addUserFormGroup.get('lastName'); }
-  get getEmail() { return this.addUserFormGroup.get('email'); }
-  get getPassword() { return this.addUserFormGroup.get('password'); }
-  get getConfirmPassword() { return this.addUserFormGroup.get('confirmPassword'); }
-  get getAddress() { return this.addUserFormGroup.get('address'); }
-  get getCountry() { return this.addUserFormGroup.get('address.country'); }
-  get getState() { return this.addUserFormGroup.get('address.state'); }
-  get getCity() { return this.addUserFormGroup.get('address.city'); }
-  get getStreet() { return this.addUserFormGroup.get('address.street'); }
-  get getZipCode() { return this.addUserFormGroup.get('address.zipCode'); }
-  get getUserRoles() { return this.addUserFormGroup.get('userRoles'); }
+  get getFirstName() { return this.addEditUserFormGroup.get('firstName'); }
+  get getLastName() { return this.addEditUserFormGroup.get('lastName'); }
+  get getEmail() { return this.addEditUserFormGroup.get('email'); }
+  get getPassword() { return this.addEditUserFormGroup.get('password'); }
+  get getConfirmPassword() { return this.addEditUserFormGroup.get('confirmPassword'); }
+  get getAddress() { return this.addEditUserFormGroup.get('address'); }
+  get getCountry() { return this.addEditUserFormGroup.get('address.country'); }
+  get getState() { return this.addEditUserFormGroup.get('address.state'); }
+  get getCity() { return this.addEditUserFormGroup.get('address.city'); }
+  get getStreet() { return this.addEditUserFormGroup.get('address.street'); }
+  get getZipCode() { return this.addEditUserFormGroup.get('address.zipCode'); }
+  get getUserRoles() { return this.addEditUserFormGroup.get('userRoles'); }
 
   get passwordValid() { return this.getPassword.errors === null; }
   get requiredValid() { return !this.getPassword.hasError('required'); }
@@ -124,8 +124,8 @@ export class AddEditUserComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.addUserFormGroup.invalid) {
-      this.addUserFormGroup.markAllAsTouched();
+    if (this.addEditUserFormGroup.invalid) {
+      this.addEditUserFormGroup.markAllAsTouched();
       return;
     }
 
@@ -163,7 +163,7 @@ export class AddEditUserComponent implements OnInit {
       checked = true;
       value = valueFromEdit;
     }
-    const checkArray: FormArray = this.addUserFormGroup.get(
+    const checkArray: FormArray = this.addEditUserFormGroup.get(
       'userRoles'
     ) as FormArray;
     if (checked) {

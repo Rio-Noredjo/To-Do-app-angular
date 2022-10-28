@@ -1,0 +1,150 @@
+<div class="row justify-content-center p-3">
+  <div class="col-5">
+    <p>On this page you can add a user.</p>
+    <ul>
+      <li>All fields are required</li>
+      <li>Whitespace texts are not possible. Custom validation is used</li>
+      <li>Email address must be unique</li>
+      <li>Password must be entered twice for verification</li>
+      <li>
+        The values of country are stored a table in a MySQL database, See to-do
+        schema in MySQL
+      </li>
+      <li>The values of user roles are in an ENUM in Angular</li>
+      <li>'Submit' button will be enabled once all values are correct</li>
+      <li>
+        Angular sends the data to a spring boot application and spring boot
+        ensures that the data is stored in the database
+      </li>
+      <li>
+        The user is stored in the database. See schedule to-do for more info
+      </li>
+      <li>
+        For more info about the back end of the application see the
+        To-Do-app-springboot application
+      </li>
+    </ul>
+  </div>
+  <div class="col-5">
+    <form
+      [formGroup]="addEditItemFormGroup"
+      (ngSubmit)="onSubmit()"
+      novalidate
+    >
+
+      <!-- title -->
+      <div class="form-group form-outline mb-3">
+        <input
+          class="form-control"
+          placeholder="Title"
+          id="title"
+          type="text"
+          formControlName="title"
+          maxlength="30"
+          [ngClass]="{
+            'is-invalid': getTitle.touched && getTitle.errors,
+            'is-valid': getTitle.valid
+          }"
+        />
+        <div
+          *ngIf="getTitle.touched && getTitle.errors"
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="
+              getTitle.errors.required ||
+              getTitle.errors.notOnlyWhitespace
+            "
+          >
+            Title is required!
+          </div>
+
+        </div>
+      </div>
+
+    <!-- Content -->
+      <div class="form-group form-outline mb-3">
+        <textarea
+          class="form-control"
+          placeholder="Input text"
+          id="content"
+          formControlName="content"
+          rows="10"
+          maxlength="470"
+          [ngClass]="{
+            'is-invalid': getContent.touched && getContent.errors,
+            'is-valid': getContent.valid
+          }"
+        ></textarea>
+        <div
+          *ngIf="getContent.touched && getContent.errors"
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="
+              getContent.errors.required ||
+              getContent.errors.notOnlyWhitespace
+            "
+          >
+            Text is required!
+          </div>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="form-group form-outline mb-3">
+        <div class="row">
+          <div class="col-md-2"><label>Status</label></div>
+          <div class="col-md-9">
+            <div class="input-space">
+              <select formControlName="status">
+                <option
+                  *ngFor="let status of statuses"
+                  [ngValue]="status"
+                >
+                  {{ status }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- userRoles -->
+      <div class="form-group form-outline mb-3">
+        <label>Categories</label>
+        <ng-select [items]="categories"
+                   [multiple]="true"
+                   bindLabel="name"
+                   formControlName="category"
+                   [ngClass]="{
+            'is-invalid': getCategory.touched && getCategory.errors,
+            'is-valid': getCategory.valid
+          }">
+        </ng-select>
+        <div
+          *ngIf="getCategory.touched && getCategory.errors"
+          class="invalid-feedback"
+        >
+          <div
+            *ngIf="
+              getCategory.errors.required
+            "
+          >
+            select at least one category
+          </div>
+        </div>
+
+      </div>
+      <p>{{addEditItemFormGroup.value | json}}</p>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!addEditItemFormGroup.valid"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
