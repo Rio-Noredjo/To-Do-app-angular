@@ -10,6 +10,7 @@ import {User} from "../class/user";
 export class UsersService {
   private allUsers = environment.toDoApiUrl + '/users/all-users';
   private userUrl = environment.toDoApiUrl + '/users/user/';
+  private userByEmailAndPasswordUrl = environment.toDoApiUrl + '/users/user/user-email-password';
   private deleteUserUrl =
     environment.toDoApiUrl + '/users/delete-user/';
 
@@ -24,6 +25,12 @@ export class UsersService {
   getUser(id: number): Observable<User> {
     return this.httpClient
       .get<User>(this.userUrl + id)
+      .pipe(map((response) => response));
+  }
+
+  getUserByEmailAndPassword(email: String, password: String): Observable<User> {
+    return this.httpClient
+      .get<User>(this.userByEmailAndPasswordUrl + `/${email}/${password}`)
       .pipe(map((response) => response));
   }
 

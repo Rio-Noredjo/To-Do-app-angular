@@ -5,5 +5,6 @@ export class Item {
   title: string
   content: string
   status: string
+  lastUpdated: string
   user: User
 }

@@ -1,49 +1,70 @@
-<div class="row py-3">
-  <div class="col-4">
-    <button class="btn btn-info" [routerLink]="['/users/add/']">add user</button>
+<div class="container-fluid">
+  <div class="p-5 text-center bg-light">
+    <h1 class="mb-3">All users</h1>
+    <p></p>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="container col-md-6 offset-md-3 py-3">
+    <div class="row">
+      <h5>Pagina: All users</h5>
+      <p>
+        On this pages the admin role kan CRUD opvoeren op gebruikers. Deze pagina is niet beschikbaar voor andere rollen.
+      </p>
+    </div>
   </div>
 </div>
 
-<div class="row">
-  <div class="col border">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Firstname</th>
-        <th scope="col">Lastname</th>
-        <th scope="col">Email address</th>
-        <th scope="col">User Roles</th>
-        <th scope="col">Country</th>
-        <th scope="col">State</th>
-        <th scope="col">City</th>
-        <th scope="col">Street</th>
-        <th scope="col">Zip code</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let user of this.users">
-        <td>{{ user.id }}</td>
-        <td>{{ user.firstName }}</td>
-        <td>{{ user.lastName }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.userRoles }}</td>
-        <td>{{ user.address?.country?.name }}</td>
-        <td>{{ user.address?.state }}</td>
-        <td>{{ user.address?.city }}</td>
-        <td>{{ user.address?.street }}</td>
-        <td>{{ user.address?.zipCode }}</td>
-        <td>
-          <p>
-            <button class="btn btn-secondary" [routerLink]="['/users/edit/', user.id]">Edit</button>
-        </td>
-        <td>
-          <button class="btn btn-danger" (click)="deleteUser(user.id)">Delete</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+<div class="container">
+  <div class="row">
+    <div class="col border">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Firstname</th>
+          <th scope="col">Lastname</th>
+          <th scope="col">Email address</th>
+          <th scope="col">User Roles</th>
+          <th scope="col">Country</th>
+          <th scope="col">State</th>
+          <th scope="col">City</th>
+          <th scope="col">Street</th>
+          <th scope="col">Zip code</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of this.users">
+          <td>{{ user.id }}</td>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.userRoles }}</td>
+          <td>{{ user.address?.country?.name }}</td>
+          <td>{{ user.address?.state }}</td>
+          <td>{{ user.address?.city }}</td>
+          <td>{{ user.address?.street }}</td>
+          <td>{{ user.address?.zipCode }}</td>
+          <td>
+            <p>
+              <button class="btn btn-secondary" [routerLink]="['/users/edit/', user.id]">Edit</button>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteUser(user.id)">Delete</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+  <div class="row py-3">
+    <div class="col-4">
+      <button class="btn btn-info" [routerLink]="['/users/add/']">add user</button>
+    </div>
+  </div>
+
 </div>
+
+

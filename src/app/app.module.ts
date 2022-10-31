@@ -15,6 +15,8 @@ import { UsersComponent } from './components/users/users.component';
 import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.component';
 import { AddEditToDoItemComponent } from './components/add-edit-to-do-item/add-edit-to-do-item.component';
 import { ItemsComponent } from './components/items/items.component';
+import {AuthGuardService} from "./services/auth-guard.service";
+import {UsersService} from "./services/users.service";
 
 @NgModule({
   declarations: [
@@ -39,7 +41,7 @@ import { ItemsComponent } from './components/items/items.component';
     ReactiveFormsModule,
     NgSelectModule
   ],
-  providers: [],
+  providers: [AuthGuardService, UsersService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

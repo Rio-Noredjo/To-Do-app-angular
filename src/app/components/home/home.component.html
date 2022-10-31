@@ -1,1 +1,68 @@
-<p>home works!</p>
+<div class="container-fluid">
+  <div class="p-5 text-center bg-light">
+    <h1 class="mb-3">Home page</h1>
+    <p></p>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="container col-md-6 offset-md-3 py-3">
+    <div class="row">
+      <h5>Pagina: Home page</h5>
+      <p>
+        Dit is de welkomspagina van de To-Do app. Bovenaan de pagina zie je de
+        navigatie van de applicatie. Afhankelijk van je userRole zijn er
+        pagina's beschikbaar. Rechts van de pagina kan een gebruiker inloggen.
+        De inlogggevens staan op de pagina.
+      </p>
+      <p>
+        Hieronder zie je de items die in de database staan. Ik heb van te voren
+        een aantal dummy items toegevoegd. Alle items hebben bepaalde waardes en
+        functionaliteiten. Zo is het mogelijk om een item te editten of te
+        verwijderen.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-light">
+  <div class="container col-md-6 offset-md-3 py-3">
+    <h5>Items from: {{this.email}}</h5>
+  </div>
+  <div class="container py-3">
+    <div class="row">
+      <div *ngFor="let item of itemCategory" class="col-4 p-2">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.item.title }}</h5>
+            <p class="card-text">{{ item.item.content }}</p>
+            <div class="row">
+              <div class="col-6">
+                <ul>
+                  <li>
+                    User: {{ item.item.user.firstName }}
+                    {{ item.item.user.lastName }}
+                  </li>
+                  <li>Status: {{ item.item.status }}</li>
+                  <li>Status: {{ item.item.lastUpdated }}</li>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul>
+                  <li>
+                    Categories:
+                    <ul>
+                      <li *ngFor="let category of item.categories">
+                        {{ category.name }}
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <button class="btn btn-secondary" [routerLink]="['/items/edit/', item.item.id]">Edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

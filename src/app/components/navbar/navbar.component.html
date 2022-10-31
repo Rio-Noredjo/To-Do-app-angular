@@ -1,42 +1,28 @@
-<!-- <p>
-  navbar works!
-</p>
-<a routerLink="home">Home</a> <br >
-<a routerLink="about">About</a> <br >
-<a routerLink="contact">Contact</a> <br >
-<a routerLink="posts">Posts</a> <br > -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <!-- Container wrapper -->
+  <div class="container-fluid">
+    <!-- Collapsible wrapper -->
+    <div *ngIf="loginService.isUserLoggedIn()" class="collapse navbar-collapse" id="navbarSupportedContent">
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-  <div class="container">
-    <a class="navbar-brand pointer" routerLink="home">Angular Blog</a>
-    <button
-      class="navbar-toggler navbar-toggler-right"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarResponsive"
-      aria-controls="navbarResponsive"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      Menu
-      <i class="fa fa-bars"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link pointer" routerLink="home">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link pointer" routerLink="about">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link pointer" routerLink="posts">Posts</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link pointer" routerLink="contact">Contact</a>
-        </li>
+      <!-- Left links -->
+      <ul  class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li><a [routerLink]="['/home']" class="nav-link">{{this.email}}</a></li>
+        <li><a *ngIf="loginService.isAccessUserRoles([UserRoleResult.ADMIN])" [routerLink]="['/users']" class="nav-link">All users</a></li>
+        <li><a *ngIf="loginService.isAccessUserRoles([UserRoleResult.ADMIN])" [routerLink]="['/users/add']" class="nav-link">Add User</a></li>
+        <li><a *ngIf="loginService.isAccessUserRoles([UserRoleResult.ADMIN])" [routerLink]="['/items']" class="nav-link">All to-do items</a></li>
+        <li><a *ngIf="loginService.isAccessUserRoles([UserRoleResult.CUSTOMER])" (click)="userItems()" class="nav-link">My items</a></li>
+        <li><a *ngIf="loginService.isAccessUserRoles([UserRoleResult.CUSTOMER])" [routerLink]="['/items/add']" class="nav-link">Add item</a></li>
       </ul>
+
+
+    <!-- Right elements -->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li> <button (click)="logout()" class="btn btn-primary">logout</button>
+      </ul>
+      <!-- Left links -->
     </div>
-  </div>
+      </div>
+  <!-- Container wrapper -->
 </nav>
+<!-- Navbar -->

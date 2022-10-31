@@ -85,7 +85,7 @@ export class AddEditToDoItemComponent implements OnInit {
     itemCategory.categories = this.getCategory.value
 
     if(this.isAddMode){
-      this.addEditItemService.addItem(itemCategory,2).subscribe({
+      this.addEditItemService.addItem(itemCategory,Number(sessionStorage.getItem('userId'))).subscribe({
         next: (response) => {
           this.ngOnInit();
           alert(`New Item added: ${response.id}`);
@@ -98,7 +98,6 @@ export class AddEditToDoItemComponent implements OnInit {
       this.addEditItemService.updateItem(itemCategory).subscribe({
         next: (response) => {
           this.ngOnInit();
-          console.log(response.id)
           alert(`item updated: ${response.id}`);
         },
         error: (err) => {

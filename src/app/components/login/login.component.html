@@ -1,1 +1,89 @@
-<p>login works!</p>
+<app-header></app-header>
+<div class="container-fluid">
+  <div class="container col-md-6 offset-md-3 py-3">
+    <div class="row">
+      <h5>Applicatie: To-Do</h5>
+      <p>
+        Het doel van deze applicatie is om mijn skills als full stack java
+        developer te laten zien. De applicatie bestaat uit een Angular front
+        end, springboot backend en een mysql database.<br />
+        De applicatie bestaat uit verschillende facetten van programmeren. Je
+        kan als gebruiker CRUD toepassen op een Item en op een User. Dit is
+        afhankelijk welke rol je heb als gebruiker.
+      </p>
+
+      <h5>Pagina: Login</h5>
+      <p>
+        Dit is de inlog pagina van de To-Do app. Zoals als de naam zeg kan je
+        inloggen op deze pagina om de rest van de applicate te bereiken. ZOnder
+        in te loggen is het niet mogelijk om de rest van de applicatie te
+        bekijken. Ook niet door de URL aan te passen. Naast de inloggegevens is
+        er een lijst te vinden met verschillende gebruikers en hun rollen. Elke
+        rol heeft andere rechten.
+      </p>
+    </div>
+    <hr class="hr" />
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="register-form col-md-3 offset-md-3">
+        <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)">
+          <div class="form-group form-outline mb-4">
+            <label>Email</label>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              [(ngModel)]="form.email"
+              required
+              minlength="1"
+            />
+          </div>
+
+          <div class="form-group form-outline mb-4">
+            <label>Password</label>
+            <input
+              type="password"
+              class="form-control"
+              name="password"
+              [(ngModel)]="form.password"
+              required
+              minlength="1"
+            />
+          </div>
+          <p *ngIf="this.isInvalid" class="text-danger">
+            Inlogggewvens niet correct
+          </p>
+          <div class="form-group">
+            <button
+              type="submit"
+              [disabled]="!f.form.valid"
+              class="btn btn-primary"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="register-form col-md-3">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Email</th>
+              <th scope="col">Password</th>
+              <th scope="col">UserRole(s)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.email }}</td>
+              <td>{{ user.password }}</td>
+              <td>{{ user.userRoles }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
