@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from "../../class/user";
 import {UsersService} from "../../services/users.service";
+import {ItemsService} from "../../services/items.service";
 
 @Component({
   selector: 'app-users',
@@ -10,7 +11,10 @@ import {UsersService} from "../../services/users.service";
 export class UsersComponent implements OnInit {
   users : User[] = [];
 
-  constructor(private usersService: UsersService) { }
+  constructor(
+    private usersService: UsersService,
+    private itemsService: ItemsService
+  ) { }
 
   ngOnInit(): void {
     this.retrieveUsers()
@@ -28,10 +32,21 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(id: number): void {
-    this.usersService.deleteUser(id).subscribe({
+    this.itemsService.getUserItems(id).subscribe({
       next: (response) => {
-        this.ngOnInit();
-        alert(`User with id: ${response} successfully deleted`);
+        if(response.length == 0){
+          this.usersService.deleteUser(id).subscribe({
+            next: (response) => {
+              this.ngOnInit();
+              alert(`User with id: ${response} successfully deleted`);
+            },
+            error: (err) => {
+              alert(`There is an error: ${err.message}`);
+            }
+          });
+        } else {
+          alert(`Not possible to delete user with id: ${id} first delete all items`);
+        }
       },
       error: (err) => {
         alert(`There is an error: ${err.message}`);

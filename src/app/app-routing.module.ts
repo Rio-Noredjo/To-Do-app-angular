@@ -6,6 +6,7 @@ import { AccountComponent } from './components/account/account.component';
 import {UsersComponent} from "./components/users/users.component";
 import {AddEditUserComponent} from "./components/add-edit-user/add-edit-user.component";
 import {AddEditToDoItemComponent} from "./components/add-edit-to-do-item/add-edit-to-do-item.component";
+import {ItemsComponent} from "./components/items/items.component";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -14,6 +15,8 @@ const routes: Routes = [
   { path: 'users', component: UsersComponent },
   { path: 'users/add', component: AddEditUserComponent },
   { path: 'users/edit/:id', component: AddEditUserComponent },
+  { path: 'items', component: ItemsComponent },
+  { path: 'items/user/:userId', component: ItemsComponent },
   { path: 'items/add', component: AddEditToDoItemComponent },
   { path: 'items/edit/:id', component: AddEditToDoItemComponent },
   { path: '**', redirectTo: 'home' },
