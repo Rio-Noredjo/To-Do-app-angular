@@ -1,28 +1,104 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+<nav class="navbar navbar-expand-lg fixed-top">
   <!-- Container wrapper -->
   <div class="container-fluid">
     <!-- Collapsible wrapper -->
-    <div *ngIf="loginService.isUserLoggedIn()" class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div
 
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+    >
       <!-- Left links -->
-      <ul  class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li><a [routerLink]="['/home']" class="nav-link">{{this.email}}</a></li>
-        <li><a *ngIf="loginService.isAccessUserRoles([UserRoleResult.ADMIN])" [routerLink]="['/users']" class="nav-link">All users</a></li>
-        <li><a *ngIf="loginService.isAccessUserRoles([UserRoleResult.ADMIN])" [routerLink]="['/users/add']" class="nav-link">Add User</a></li>
-        <li><a *ngIf="loginService.isAccessUserRoles([UserRoleResult.ADMIN])" [routerLink]="['/items']" class="nav-link">All to-do items</a></li>
-        <li><a *ngIf="loginService.isAccessUserRoles([UserRoleResult.CUSTOMER])" (click)="userItems()" class="nav-link">My items</a></li>
-        <li><a *ngIf="loginService.isAccessUserRoles([UserRoleResult.CUSTOMER])" [routerLink]="['/items/add']" class="nav-link">Add item</a></li>
+      <ul *ngIf="loginService.isUserLoggedIn()" class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li>
+          <a [routerLink]="['/home']" class="nav-link">{{ this.email }}</a>
+        </li>
+        <li>
+          <a
+            *ngIf="loginService.isAccessUserRoles([UserRoleResult.ADMIN])"
+            [routerLink]="['/users']"
+            class="nav-link"
+            >All users</a
+          >
+        </li>
+        <li>
+          <a
+            *ngIf="loginService.isAccessUserRoles([UserRoleResult.ADMIN])"
+            [routerLink]="['/users/add']"
+            class="nav-link"
+            >Add User</a
+          >
+        </li>
+        <li>
+          <a
+            *ngIf="loginService.isAccessUserRoles([UserRoleResult.ADMIN])"
+            [routerLink]="['/items']"
+            class="nav-link"
+            >All Items</a
+          >
+        </li>
+        <li>
+          <a
+            *ngIf="
+              loginService.isAccessUserRoles([
+                UserRoleResult.ADMIN,
+                UserRoleResult.CUSTOMER
+              ])
+            "
+            (click)="userItems()"
+            class="nav-link"
+            >My items</a
+          >
+        </li>
+        <li>
+          <a
+            *ngIf="
+              loginService.isAccessUserRoles([
+                UserRoleResult.ADMIN,
+                UserRoleResult.CUSTOMER
+              ])
+            "
+            [routerLink]="['/items/add']"
+            class="nav-link"
+            >Add item</a
+          >
+        </li>
       </ul>
 
-
-    <!-- Right elements -->
+      <!-- Right elements -->
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li> <button (click)="logout()" class="btn btn-primary">logout</button>
+        <li class="nav-item">
+          <a
+            class="btn btn-link btn-floating btn-lg"
+            href="https://github.com/Rio-Noredjo"
+            target="_blank"
+            role="button"
+          ><fa-icon class="fa-color-steel" [icon]="faGithub"></fa-icon
+          ></a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="btn btn-link btn-floating btn-lg"
+            href="https://www.linkedin.com/in/riordon-noredjo/"
+            target="_blank"
+            role="button"
+          ><fa-icon
+            class="fa-color-steel"
+            [icon]="faLinkedin"
+            href="#"
+          ></fa-icon
+          ></a>
+        </li>
+        <li *ngIf="loginService.isUserLoggedIn()" class="nav-item">
+          <button (click)="logout()" class="btn btn-middle-green">
+            Logout
+          </button>
+        </li>
       </ul>
+
       <!-- Left links -->
     </div>
-      </div>
+  </div>
   <!-- Container wrapper -->
 </nav>
 <!-- Navbar -->

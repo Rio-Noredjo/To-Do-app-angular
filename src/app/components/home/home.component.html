@@ -1,51 +1,44 @@
 <div class="container-fluid">
-  <div class="p-5 text-center bg-light">
-    <h1 class="mb-3">Home page</h1>
-    <p></p>
+  <div class="container col-md-6 offset-md-3 mt-2">
+    <div class="row pt-5 pb-3 text-center border-bottom">
+      <h1>Home page</h1>
+      <p></p>
+    </div>
   </div>
 </div>
 <div class="container-fluid">
-  <div class="container col-md-6 offset-md-3 py-3">
-    <div class="row">
-      <h5>Pagina: Home page</h5>
+  <div class="container col-md-6 offset-md-3">
+    <div class="row pt-3">
+      <h5>Home</h5>
       <p>
-        Dit is de welkomspagina van de To-Do app. Bovenaan de pagina zie je de
-        navigatie van de applicatie. Afhankelijk van je userRole zijn er
-        pagina's beschikbaar. Rechts van de pagina kan een gebruiker inloggen.
-        De inlogggevens staan op de pagina.
-      </p>
-      <p>
-        Hieronder zie je de items die in de database staan. Ik heb van te voren
-        een aantal dummy items toegevoegd. Alle items hebben bepaalde waardes en
-        functionaliteiten. Zo is het mogelijk om een item te editten of te
-        verwijderen.
+        At the top of the page there is a navigation bar. The items in the
+        navigation bar depend on the role you are logged in with. on the right
+        side of the navigation bar there is a 'Logout' button. Clicking this
+        button will log you out and return you to the login page.
+        <br />
+        On this page you also can see all the user's to-do items. Each item has
+        a title, status, username, content, categories, 'Edit' button and last
+        update date. With 'Edit' button button you can change the relevant item.
       </p>
     </div>
   </div>
 </div>
 
-<div class="container-fluid bg-light">
-  <div class="container col-md-6 offset-md-3 py-3">
-    <h5>Items from: {{this.email}}</h5>
-  </div>
-  <div class="container py-3">
+<div class="container-fluid">
+  <div class="container border-top pt-3">
     <div class="row">
+      <h5>Items from: {{ this.email }}</h5>
       <div *ngFor="let item of itemCategory" class="col-4 p-2">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{ item.item.title }}</h5>
-            <p class="card-text">{{ item.item.content }}</p>
+            <p class="card-subtitle">{{ item.item.status }}</p>
+            <p class="card-subtitle">
+              {{ item.item.user.firstName }} {{ item.item.user.lastName }}
+            </p>
+
+            <p class="card-text pt-2">{{ item.item.content }}</p>
             <div class="row">
-              <div class="col-6">
-                <ul>
-                  <li>
-                    User: {{ item.item.user.firstName }}
-                    {{ item.item.user.lastName }}
-                  </li>
-                  <li>Status: {{ item.item.status }}</li>
-                  <li>Status: {{ item.item.lastUpdated }}</li>
-                </ul>
-              </div>
               <div class="col-6">
                 <ul>
                   <li>
@@ -59,7 +52,21 @@
                 </ul>
               </div>
             </div>
-            <button class="btn btn-secondary" [routerLink]="['/items/edit/', item.item.id]">Edit</button>
+            <button
+              *ngIf="
+                loginService.isAccessUserRoles([
+                  UserRoleResult.ADMIN,
+                  UserRoleResult.CUSTOMER
+                ])
+              "
+              class="btn btn-light-green"
+              [routerLink]="['/items/edit/', item.item.id]"
+            >
+              Edit
+            </button>
+            <div class="card-footer mt-2">
+              Updated: {{ item.item.lastUpdated }}
+            </div>
           </div>
         </div>
       </div>

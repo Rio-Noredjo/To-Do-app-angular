@@ -1,1 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
+html, .container-fluid, .navbar, .container{
+  background-color: #F8EDE3 !important;
+}
+
+.btn-light-green {
+  background-color: #BDD2B6 !important;
+  font-weight: 500 !important;
+}
+
+.btn-light-green:hover {
+  background-color: #A2B29F !important;
+}
+
+.btn-middle-green {
+  background-color: #A2B29F !important;
+  font-weight: 500 !important;
+}
+
+.btn-middle-green:hover {
+  background-color: #556153 !important;
+}
+
+.card-title {
+  color: #798777
+}
+
+h1, h5, .nav-link, .fa-color-steel{
+  color: #556153 !important;
+}
+
+.nav-link:hover{
+  text-decoration: underline;
+}
+
+.table {
+  background-color: #BDD2B6;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+  background-color: #afc7a7;
+}

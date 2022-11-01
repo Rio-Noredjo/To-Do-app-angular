@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {map, Observable} from "rxjs";
-import {Country} from "../class/country";
-import {User} from "../class/user";
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
+import { Country } from '../class/country';
+import { User } from '../class/user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AddEditUserService {
   private countriesUrl = environment.toDoApiUrl + '/countries';
   private addUserUrl = environment.toDoApiUrl + '/users/add';
   private updateUserUrl = environment.toDoApiUrl + '/users/update';
-  private findUserByEmailUrl =
-    environment.toDoApiUrl + '/users/find-by-email/';
+  private findUserByEmailUrl = environment.toDoApiUrl + '/users/find-by-email/';
 
   constructor(private httpClient: HttpClient) {}
 

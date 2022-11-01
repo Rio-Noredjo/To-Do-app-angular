@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   isInvalid: boolean = false;
   form = {
     email: '',
-    password: '',
+    password: 'Password01!',
   };
   isLogIn: boolean;
   constructor(
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if (this.form.email !== "" && this.form.password !== "") {
+    if (this.form.email !== '' && this.form.password !== '') {
       this.loginService.authenticate(this.form.email, this.form.password);
       setTimeout(() => {
         this.isLogIn = sessionStorage.getItem('email') !== null;

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../../services/auth.service";
-import {UserRole} from "../../enum/user-role";
-import {Router} from "@angular/router";
+import { AuthService } from '../../services/auth.service';
+import { UserRole } from '../../enum/user-role';
+import { Router } from '@angular/router';
+import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
+
 
 @Component({
   selector: 'app-navbar',
@@ -9,11 +11,12 @@ import {Router} from "@angular/router";
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  email: string
-  userInfo: string[] = []
+  email: string;
+  userInfo: string[] = [];
+  faLinkedin = faLinkedin;
+  faGithub = faGithub;
 
-  constructor(public loginService:AuthService,
-  private router : Router) { }
+  constructor(public loginService: AuthService, private router: Router) {}
 
   public get UserRoleResult(): typeof UserRole {
     return UserRole;
@@ -28,12 +31,11 @@ export class NavbarComponent implements OnInit {
   }
 
   userItems() {
-    let userId = sessionStorage.getItem('userId')
-    this.router.navigate([`/items/user/${userId}`])
-
+    let userId = sessionStorage.getItem('userId');
+    this.router.navigate([`/items/user/${userId}`]);
   }
 
   login() {
-    this.router.navigate([`/login`])
+    this.router.navigate([`/login`]);
   }
 }

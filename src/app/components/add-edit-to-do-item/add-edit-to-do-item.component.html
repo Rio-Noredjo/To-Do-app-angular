@@ -1,169 +1,209 @@
 <div class="container-fluid">
-  <div class="p-5 text-center bg-light">
-    <h1 class="mb-3">Add/Edit item</h1>
-    <p></p>
+  <div class="container col-md-6 offset-md-3 mt-2">
+    <div class="row pt-5 pb-3 text-center border-bottom">
+      <h1>Add/Edit item</h1>
+      <p></p>
+    </div>
   </div>
 </div>
 <div class="container-fluid">
-  <div class="container col-md-6 offset-md-3 py-3">
-    <div class="row">
-      <h5>Pagina: All user</h5>
+  <div class="container col-md-6 offset-md-3 border-bottom">
+    <div class="row pt-3">
+      <h5>Add/Edit item</h5>
       <p>
-        Op deze pagina  kan een gebruiker geupdated of gewijzgid worden. Dit is afhankelijk van de userRole waarmee de gebruiker is ingelogd.      </p>
+        On this page the user can update his item or add an item. When adding an
+        item, the user will see an empty form and when editing an item, the user
+        will see its old values. The changes are immediately visible on other
+        pages
+      </p>
     </div>
   </div>
 </div>
 
-<div class="container">
-  <div class="row justify-content-center p-3">
-    <div class="col-5">
-      <p>On this page you can add a user.</p>
-      <ul>
-        <li>All fields are required</li>
-        <li>Whitespace texts are not possible. Custom validation is used</li>
-        <li>Email address must be unique</li>
-        <li>Password must be entered twice for verification</li>
-        <li>
-          The values of country are stored a table in a MySQL database, See to-do
-          schema in MySQL
-        </li>
-        <li>The values of user roles are in an ENUM in Angular</li>
-        <li>'Submit' button will be enabled once all values are correct</li>
-        <li>
-          Angular sends the data to a spring boot application and spring boot
-          ensures that the data is stored in the database
-        </li>
-        <li>
-          The user is stored in the database. See schedule to-do for more info
-        </li>
-        <li>
-          For more info about the back end of the application see the
-          To-Do-app-springboot application
-        </li>
-      </ul>
-    </div>
-    <div class="col-5">
-      <form
-        [formGroup]="addEditItemFormGroup"
-        (ngSubmit)="onSubmit()"
-        novalidate
-      >
-
-        <!-- title -->
-        <div class="form-group form-outline mb-3">
-          <input
-            class="form-control"
-            placeholder="Title"
-            id="title"
-            type="text"
-            formControlName="title"
-            maxlength="30"
-            [ngClass]="{
-            'is-invalid': getTitle.touched && getTitle.errors,
-            'is-valid': getTitle.valid
-          }"
-          />
-          <div
-            *ngIf="getTitle.touched && getTitle.errors"
-            class="invalid-feedback"
-          >
+<div class="container-fluid">
+  <div class="container">
+    <div class="row justify-content-center p-3">
+      <div class="col-5">
+        <h3 *ngIf="isAddMode">Add item</h3>
+        <h3 *ngIf="!isAddMode">Edit item</h3>
+        <ul>
+          <li>All fields are required.</li>
+          <li>Whitespace texts are not possible. Custom validation is used.</li>
+          <li>'Submit' button will be enabled once all values are correct</li>
+          <li>
+            Angular sends the data to a spring boot application and spring boot
+            ensures that the data is stored in the database.
+          </li>
+          <li>
+            The item is stored in the database. See schedule to-do for more.
+          </li>
+          <li>
+            For more info about the back end of the application see the
+            To-Do-app-springboot application.
+          </li>
+          <li>
+            For more info about the database of the application see the see the
+            starter files of this project.
+          </li>
+        </ul>
+      </div>
+      <div class="col-5">
+        <h5 *ngIf="isAddMode">Add item</h5>
+        <h5 *ngIf="!isAddMode">Update item: {{ itemId }}</h5>
+        <form
+          [formGroup]="addEditItemFormGroup"
+          (ngSubmit)="onSubmit()"
+          novalidate
+        >
+          <!-- title -->
+          <div class="form-group form-outline mb-3">
+            <input
+              class="form-control"
+              placeholder="Title"
+              id="title"
+              type="text"
+              formControlName="title"
+              maxlength="100"
+              [ngClass]="{
+                'is-invalid': getTitle.touched && getTitle.errors,
+                'is-valid': getTitle.valid
+              }"
+            />
             <div
-              *ngIf="
-              getTitle.errors.required ||
-              getTitle.errors.notOnlyWhitespace
-            "
+              *ngIf="getTitle.touched && getTitle.errors"
+              class="invalid-feedback"
             >
-              Title is required!
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Content -->
-        <div class="form-group form-outline mb-3">
-        <textarea
-          class="form-control"
-          placeholder="Input text"
-          id="content"
-          formControlName="content"
-          rows="10"
-          maxlength="470"
-          [ngClass]="{
-            'is-invalid': getContent.touched && getContent.errors,
-            'is-valid': getContent.valid
-          }"
-        ></textarea>
-          <div
-            *ngIf="getContent.touched && getContent.errors"
-            class="invalid-feedback"
-          >
-            <div
-              *ngIf="
-              getContent.errors.required ||
-              getContent.errors.notOnlyWhitespace
-            "
-            >
-              Text is required!
-            </div>
-          </div>
-        </div>
-
-        <!-- Status -->
-        <div class="form-group form-outline mb-3">
-          <div class="row">
-            <div class="col-md-2"><label>Status</label></div>
-            <div class="col-md-9">
-              <div class="input-space">
-                <select formControlName="status">
-                  <option
-                    *ngFor="let status of statuses"
-                    [ngValue]="status"
-                  >
-                    {{ status }}
-                  </option>
-                </select>
+              <div
+                *ngIf="
+                  getTitle.errors.required || getTitle.errors.notOnlyWhitespace
+                "
+              >
+                Title is required!
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- userRoles -->
-        <div class="form-group form-outline mb-3">
-          <label>Categories</label>
-          <ng-select [items]="categories"
-                     [multiple]="true"
-                     bindLabel="name"
-                     formControlName="category"
-                     [ngClass]="{
-            'is-invalid': getCategory.touched && getCategory.errors,
-            'is-valid': getCategory.valid
-          }">
-          </ng-select>
-          <div
-            *ngIf="getCategory.touched && getCategory.errors"
-            class="invalid-feedback"
-          >
+          <!-- Content -->
+          <div class="form-group form-outline mb-3">
+            <textarea
+              class="form-control"
+              placeholder="Input text"
+              id="content"
+              formControlName="content"
+              rows="10"
+              maxlength="470"
+              [ngClass]="{
+                'is-invalid': getContent.touched && getContent.errors,
+                'is-valid': getContent.valid
+              }"
+            ></textarea>
             <div
-              *ngIf="
-              getCategory.errors.required
-            "
+              *ngIf="getContent.touched && getContent.errors"
+              class="invalid-feedback"
             >
-              select at least one category
+              <div
+                *ngIf="
+                  getContent.errors.required ||
+                  getContent.errors.notOnlyWhitespace
+                "
+              >
+                Text is required!
+              </div>
             </div>
           </div>
 
-        </div>
-        <p>{{addEditItemFormGroup.value | json}}</p>
+          <!-- Status -->
+          <div class="form-group form-outline mb-3">
+            <div class="row">
+              <div class="col-md-2"><label>Status</label></div>
+              <div class="col-md-9">
+                <div class="input-space">
+                  <select formControlName="status">
+                    <option *ngFor="let status of statuses" [ngValue]="status">
+                      {{ status }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <button
-          type="submit"
-          class="btn btn-primary"
-          [disabled]="!addEditItemFormGroup.valid"
-        >
-          Submit
-        </button>
-      </form>
+          <!-- userRoles -->
+          <div class="form-group form-outline mb-3">
+            <label>Categories</label>
+            <ng-select
+              [items]="categories"
+              [multiple]="true"
+              bindLabel="name"
+              formControlName="category"
+              [ngClass]="{
+                'is-invalid': getCategory.touched && getCategory.errors,
+                'is-valid': getCategory.valid
+              }"
+            >
+            </ng-select>
+            <div
+              *ngIf="getCategory.touched && getCategory.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="getCategory.errors.required">
+                select at least one category
+              </div>
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-light-green"
+            [disabled]="!addEditItemFormGroup.valid"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   </div>
-
+</div>
+<div class="container-fluid">
+  <div class="container border-top pt-3">
+    <div *ngIf="!isAddMode" class="row py-3">
+      <div class="col-4">
+        <button class="btn btn-middle-green" [routerLink]="['/items/add/']">
+          add Item
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <h5>Items: {{ this.email }}</h5>
+      <div class="col">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Email</th>
+              <th scope="col">Title</th>
+              <th scope="col">Content</th>
+              <th scope="col">Category</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let itemCategory of this.itemCategories">
+              <td>{{ itemCategory.item.id }}</td>
+              <td>{{ itemCategory.item.user.email }}</td>
+              <td>{{ itemCategory.item.title }}</td>
+              <td>{{ itemCategory.item.content }}</td>
+              <td>
+                <ul>
+                  <li *ngFor="let category of itemCategory.categories">
+                    {{ category.name }}
+                  </li>
+                </ul>
+              </td>
+              <td>{{ itemCategory.item.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,10 +1,10 @@
-import {User} from "./user";
+import { User } from './user';
 
 export class Item {
-  id:number
-  title: string
-  content: string
-  status: string
-  lastUpdated: string
-  user: User
+  id: number;
+  title: string;
+  content: string;
+  status: string;
+  lastUpdated: string;
+  user: User;
 }

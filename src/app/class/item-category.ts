@@ -1,7 +1,7 @@
-import {Item} from "./item";
-import {Category} from "./category";
+import { Item } from './item';
+import { Category } from './category';
 
 export class ItemCategory {
-  item: Item
-  categories: Category[]
+  item: Item;
+  categories: Category[];
 }

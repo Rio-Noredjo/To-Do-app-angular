@@ -15,8 +15,10 @@ import { UsersComponent } from './components/users/users.component';
 import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.component';
 import { AddEditToDoItemComponent } from './components/add-edit-to-do-item/add-edit-to-do-item.component';
 import { ItemsComponent } from './components/items/items.component';
-import {AuthGuardService} from "./services/auth-guard.service";
-import {UsersService} from "./services/users.service";
+import { AuthGuardService } from './services/auth-guard.service';
+import { UsersService } from './services/users.service';
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import {UsersService} from "./services/users.service";
     AddEditUserComponent,
     UsersComponent,
     AddEditToDoItemComponent,
-    ItemsComponent
+    ItemsComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import {UsersService} from "./services/users.service";
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
+    FontAwesomeModule
   ],
   providers: [AuthGuardService, UsersService],
   bootstrap: [AppComponent],
