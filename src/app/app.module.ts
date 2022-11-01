@@ -7,9 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { AccountComponent } from './components/account/account.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { UsersComponent } from './components/users/users.component';
 import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.component';
@@ -24,9 +22,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
   declarations: [
     AppComponent,
     NavbarComponent,
-    HeaderComponent,
     FooterComponent,
-    AccountComponent,
     LoginComponent,
     HomeComponent,
     AddEditUserComponent,

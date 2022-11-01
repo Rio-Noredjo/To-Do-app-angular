@@ -33,10 +33,6 @@
           <div class="card-body">
             <h5 class="card-title">{{ item.item.title }}</h5>
             <p class="card-subtitle">{{ item.item.status }}</p>
-            <p class="card-subtitle">
-              {{ item.item.user.firstName }} {{ item.item.user.lastName }}
-            </p>
-
             <p class="card-text pt-2">{{ item.item.content }}</p>
             <div class="row">
               <div class="col-6">
@@ -65,7 +61,10 @@
               Edit
             </button>
             <div class="card-footer mt-2">
-              Updated: {{ item.item.lastUpdated }}
+              <p >
+                {{ item.item.user.firstName }} {{ item.item.user.lastName }}
+              </p>
+              <p class="card-subtitle">Updated: {{ item.item.lastUpdated }}</p>
             </div>
           </div>
         </div>
