@@ -20,7 +20,7 @@ export class ItemsService {
 
   constructor(private httpClient: HttpClient) {}
 
-  /** Retrieve items for a user based on userId.*/
+  /** Retrieve items for a user by userId.*/
   getUserItems(userId: number): Observable<ItemCategories[]> {
     return this.httpClient
       .get<ItemCategories[]>(this.allUserItemsUrl + userId)
@@ -34,7 +34,7 @@ export class ItemsService {
       .pipe(map((response) => response));
   }
 
-  /** Delete item based on itemId.*/
+  /** Delete item by itemId.*/
   deleteItem(itemId: number): Observable<number> {
     return this.httpClient
       .delete<number>(this.deleteItemUrl + itemId)
@@ -48,7 +48,7 @@ export class ItemsService {
       .pipe(map((response) => response._embedded.categories));
   }
 
-  /** Retrieve item based on itemId.*/
+  /** Retrieve item by itemId.*/
   getItem(itemId: number): Observable<ItemCategories> {
     return this.httpClient
       .get<ItemCategories>(this.getItemUrl + itemId)

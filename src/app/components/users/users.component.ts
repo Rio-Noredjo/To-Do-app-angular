@@ -32,7 +32,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  /** Delete user based on userId.*/
+  /** Delete user by userId.*/
   deleteUser(userId: number): void {
     this.itemsService.getUserItems(userId).subscribe({
       next: (response) => {

@@ -28,21 +28,21 @@ export class UsersService {
       .pipe(map((response) => response));
   }
 
-  /** Retrieve user based on userId.*/
+  /** Retrieve user by userId.*/
   getUser(userId: number): Observable<User> {
     return this.httpClient
       .get<User>(this.userUrl + userId)
       .pipe(map((response) => response));
   }
 
-  /** Retrieve user based on email and password.*/
+  /** Retrieve user by email and password.*/
   getUserByEmailAndPassword(email: String, password: String): Observable<User> {
     return this.httpClient
       .get<User>(this.userByEmailAndPasswordUrl + `/${email}/${password}`)
       .pipe(map((response) => response));
   }
 
-  /** Delete user based on userId.*/
+  /** Delete user by userId.*/
   deleteUser(userId: number): Observable<number> {
     return this.httpClient
       .delete<number>(this.deleteUserUrl + userId)
@@ -70,7 +70,7 @@ export class UsersService {
       .pipe(map((response) => response));
   }
 
-  /** Retrieve user based on email address.*/
+  /** Retrieve user by email address.*/
   findUserByEmail(email: String): Observable<User> {
     return this.httpClient
       .get<User>(this.findUserByEmailUrl + email)

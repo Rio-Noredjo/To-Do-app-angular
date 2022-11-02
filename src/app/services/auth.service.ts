@@ -10,7 +10,7 @@ export class AuthService {
   constructor(private userService: UsersService,
               private router: Router) {}
 
-  /** Retrieve user from the database based on username and password.
+  /** Retrieve user by username and password.
    * If no user is found notting is saved in the sessionStorage.*/
   authenticate(username, password): void {
     this.userService.getUserByEmailAndPassword(username, password).subscribe({

@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
     this.getUserItems();
   }
 
-  /** Get all items based on userId.*/
+  /** Get all items by userId.*/
   private getUserItems(): void {
     this.itemsService.getUserItems(Number(sessionStorage.getItem('userId')))
       .subscribe({
