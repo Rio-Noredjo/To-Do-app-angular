@@ -1,4 +1,3 @@
-
 <div class="container-fluid">
   <div class="container col-md-6 offset-md-3 mt-2">
     <div class="row pt-5 pb-3 text-center border-bottom">
@@ -14,11 +13,11 @@
       <h5>To-Do application</h5>
       <div class="col">
         <p>
-          The purpose of this application is to show my skills as a full stack
-          java developer. The application consists of an Angular front end,
-          springboot back end and a MySQL database. To gain technical insight
+          The purpose of this application is to show my skills as a full-stack
+          Java developer. The application consists an Angular front end,
+          Spring Boot back end and a MySQL database. To gain technical insight
           into the application, I recommend viewing the code. By looking at the
-          code you get a good idea of my coding skills. The purpose of this
+          code you'll get a good idea of my coding skills. The purpose of this
           application is to show my skills on the different facets of
           programming, like:
         </p>
@@ -27,52 +26,48 @@
           <li>Apply CRUD to objects</li>
           <li>Using forms with validation</li>
           <li>HTML, CSS and Bootstrap</li>
-          <li>HTML en CSS</li>
+          <li>Unit tests</li>
         </ul>
         <h5>Login</h5>
         <p>
-          This is the login page of the application. Like as the name says you
-          can login to this page to access the rest of the application. Without
+          This is the login page of the application. As the name already tells you, you
+          can login here to gain access to the application. Without
           logging in, it is not possible to view the rest of the application.
-          Not even by changing the URL. In addition to the login form, there is
-          a list of different users. These users are in the database. Choose a
+          This is not even possible by changing the URL. In addition to the login form, there is
+          a list of different users. These users are in the database. Please choose a
           user from the list to login.
         </p>
       </div>
     </div>
   </div>
-
   <div class="container">
     <div class="row pt-3">
       <div class="register-form col-md-3 offset-md-3">
         <form name="form" #f="ngForm" (ngSubmit)="onSubmit(f)">
           <div class="form-group form-outline mb-4">
-            <input
-              type="email"
-              class="form-control"
-              name="email"
-              [(ngModel)]="form.email"
-              required
-              minlength="1"
-              placeholder="Email"
+            <input type="email"
+                   class="form-control"
+                   name="email"
+                   [(ngModel)]="form.email"
+                   required
+                   minlength="1"
+                   placeholder="Email"
             />
           </div>
           <div class="form-group form-outline mb-4">
-            <input
-              type="text"
-              class="form-control"
-              name="text"
-              [(ngModel)]="form.password"
-              required
-              minlength="1"
-              placeholder="Password"
+            <input type="text"
+                   class="form-control"
+                   name="text"
+                   [(ngModel)]="form.password"
+                   required
+                   minlength="1"
+                   placeholder="Password"
             />
           </div>
           <div class="form-group">
-            <button
-              type="submit"
-              [disabled]="!f.form.valid"
-              class="btn btn-light-green"
+            <button type="submit"
+                    [disabled]="!f.form.valid"
+                    class="btn btn-light-green"
             >
               Login
             </button>

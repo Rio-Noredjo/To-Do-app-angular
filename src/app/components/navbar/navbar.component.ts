@@ -4,7 +4,6 @@ import { UserRole } from '../../enum/user-role';
 import { Router } from '@angular/router';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -16,7 +15,7 @@ export class NavbarComponent implements OnInit {
   faLinkedin = faLinkedin;
   faGithub = faGithub;
 
-  constructor(public loginService: AuthService, private router: Router) {}
+  constructor(public  authService: AuthService, private router: Router) {}
 
   public get UserRoleResult(): typeof UserRole {
     return UserRole;
@@ -26,16 +25,15 @@ export class NavbarComponent implements OnInit {
     this.email = sessionStorage.getItem('email');
   }
 
+  /** Logout user when button Logout is clicked.*/
   logout() {
-    this.loginService.logOut();
+    this.authService.logOut();
   }
 
+  /** Go to the items page.*/
   userItems() {
     let userId = sessionStorage.getItem('userId');
     this.router.navigate([`/items/user/${userId}`]);
   }
 
-  login() {
-    this.router.navigate([`/login`]);
-  }
 }

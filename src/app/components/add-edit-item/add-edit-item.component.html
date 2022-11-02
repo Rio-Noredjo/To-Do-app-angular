@@ -1,3 +1,4 @@
+<!-- header -->
 <div class="container-fluid">
   <div class="container col-md-6 offset-md-3 mt-2">
     <div class="row pt-5 pb-3 text-center border-bottom">
@@ -13,33 +14,39 @@
       <p>
         On this page the user can update his item or add an item. When adding an
         item, the user will see an empty form and when editing an item, the user
-        will see its old values. The changes are immediately visible on other
+        will see the old values first. The changes are immediately visible on other
         pages
       </p>
     </div>
   </div>
 </div>
 
+<!-- Add/Edit item form -->
 <div class="container-fluid">
   <div class="container">
     <div class="row justify-content-center p-3">
       <div class="col-5">
-        <h3 *ngIf="isAddMode">Add item</h3>
-        <h3 *ngIf="!isAddMode">Edit item</h3>
+        <div *ngIf="isAddMode; else isEditMode">
+          <h3>Add item</h3>
+        </div>
+        <ng-template #isEditMode>
+          <h3>Edit item</h3>
+        </ng-template>
         <ul>
-          <li>All fields are required.</li>
-          <li>Whitespace texts are not possible. Custom validation is used.</li>
+          <li>All fields are required</li>
+          <li>Whitespace texts are not possible</li>
+          <li>Custom validation is used</li>
           <li>'Submit' button will be enabled once all values are correct</li>
           <li>
-            Angular sends the data to a spring boot application and spring boot
-            ensures that the data is stored in the database.
+            Angular sends the data to a Spring Boot application and Spring Boot
+            will ensure that the data is stored in the database
           </li>
           <li>
-            The item is stored in the database. See schedule to-do for more.
+            The item is stored in the database, see schedule to-do for more information
           </li>
           <li>
-            For more info about the back end of the application see the
-            To-Do-app-springboot application.
+            For more information about the back end of the application see the
+            To-Do-app-springboot application
           </li>
           <li>
             For more info about the database of the application see the see the
@@ -49,12 +56,13 @@
       </div>
       <div class="col-5">
         <h5 *ngIf="isAddMode">Add item</h5>
-        <h5 *ngIf="!isAddMode">Update item: {{ itemId }}</h5>
+        <h5 *ngIf="!isAddMode">Update item: {{itemId}}</h5>
         <form
           [formGroup]="addEditItemFormGroup"
           (ngSubmit)="onSubmit()"
           novalidate
         >
+
           <!-- title -->
           <div class="form-group form-outline mb-3">
             <input
@@ -66,18 +74,10 @@
               maxlength="100"
               [ngClass]="{
                 'is-invalid': getTitle.touched && getTitle.errors,
-                'is-valid': getTitle.valid
-              }"
+                'is-valid': getTitle.valid}"
             />
-            <div
-              *ngIf="getTitle.touched && getTitle.errors"
-              class="invalid-feedback"
-            >
-              <div
-                *ngIf="
-                  getTitle.errors.required || getTitle.errors.notOnlyWhitespace
-                "
-              >
+            <div *ngIf="getTitle.touched && getTitle.errors" class="invalid-feedback">
+              <div *ngIf="getTitle.errors.required || getTitle.errors.notOnlyWhitespace">
                 Title is required!
               </div>
             </div>
@@ -94,19 +94,11 @@
               maxlength="470"
               [ngClass]="{
                 'is-invalid': getContent.touched && getContent.errors,
-                'is-valid': getContent.valid
-              }"
-            ></textarea>
-            <div
-              *ngIf="getContent.touched && getContent.errors"
-              class="invalid-feedback"
+                'is-valid': getContent.valid}"
             >
-              <div
-                *ngIf="
-                  getContent.errors.required ||
-                  getContent.errors.notOnlyWhitespace
-                "
-              >
+            </textarea>
+            <div *ngIf="getContent.touched && getContent.errors" class="invalid-feedback">
+              <div *ngIf=" getContent.errors.required || getContent.errors.notOnlyWhitespace">
                 Text is required!
               </div>
             </div>
@@ -120,7 +112,7 @@
                 <div class="input-space">
                   <select formControlName="status">
                     <option *ngFor="let status of statuses" [ngValue]="status">
-                      {{ status }}
+                      {{status}}
                     </option>
                   </select>
                 </div>
@@ -138,14 +130,10 @@
               formControlName="category"
               [ngClass]="{
                 'is-invalid': getCategory.touched && getCategory.errors,
-                'is-valid': getCategory.valid
-              }"
+                'is-valid': getCategory.valid}"
             >
             </ng-select>
-            <div
-              *ngIf="getCategory.touched && getCategory.errors"
-              class="invalid-feedback"
-            >
+            <div *ngIf="getCategory.touched && getCategory.errors" class="invalid-feedback">
               <div *ngIf="getCategory.errors.required">
                 select at least one category
               </div>
@@ -163,6 +151,8 @@
     </div>
   </div>
 </div>
+
+<!-- all items -->
 <div class="container-fluid">
   <div class="container border-top pt-3">
     <div *ngIf="!isAddMode" class="row py-3">
@@ -173,7 +163,7 @@
       </div>
     </div>
     <div class="row">
-      <h5>Items: {{ this.email }}</h5>
+      <h5>Items: {{email}}</h5>
       <div class="col">
         <table class="table table-striped">
           <thead>
@@ -187,19 +177,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let itemCategory of this.itemCategories">
-              <td>{{ itemCategory.item.id }}</td>
-              <td>{{ itemCategory.item.user.email }}</td>
-              <td>{{ itemCategory.item.title }}</td>
-              <td>{{ itemCategory.item.content }}</td>
+            <tr *ngFor="let itemCategory of itemCategories">
+              <td>{{itemCategory.item.id}}</td>
+              <td>{{itemCategory.item.user.email}}</td>
+              <td>{{itemCategory.item.title}}</td>
+              <td>{{itemCategory.item.content}}</td>
               <td>
                 <ul>
                   <li *ngFor="let category of itemCategory.categories">
-                    {{ category.name }}
+                    {{category.name}}
                   </li>
                 </ul>
               </td>
-              <td>{{ itemCategory.item.status }}</td>
+              <td>{{itemCategory.item.status}}</td>
             </tr>
           </tbody>
         </table>

@@ -11,7 +11,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { UsersComponent } from './components/users/users.component';
 import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.component';
-import { AddEditToDoItemComponent } from './components/add-edit-to-do-item/add-edit-to-do-item.component';
+import { AddEditItemComponent } from './components/add-edit-item/add-edit-item.component';
 import { ItemsComponent } from './components/items/items.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { UsersService } from './services/users.service';
@@ -27,7 +27,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     HomeComponent,
     AddEditUserComponent,
     UsersComponent,
-    AddEditToDoItemComponent,
+    AddEditItemComponent,
     ItemsComponent,
   ],
   imports: [

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemsService } from '../../services/items.service';
-import { ItemCategory } from '../../class/item-category';
+import { ItemCategories } from '../../class/item-categories';
 import { AuthService } from '../../services/auth.service';
 import { UserRole } from '../../enum/user-role';
 
@@ -10,39 +10,36 @@ import { UserRole } from '../../enum/user-role';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  itemCategory: ItemCategory[] = [];
-  isLogedIn: boolean;
+  itemCategory: ItemCategories[] = [];
   email: string;
   userId: number;
-  message: string = '';
-  approvalText: string = '';
-  constructor(
-    private itemsService: ItemsService,
-    public loginService: AuthService
-  ) {}
 
-  public get UserRoleResult(): typeof UserRole {
+  constructor(private itemsService: ItemsService,
+              public authService: AuthService) {}
+
+  get UserRoleResult(): typeof UserRole {
     return UserRole;
   }
 
   ngOnInit(): void {
     this.email = sessionStorage.getItem('email');
-    this.itemsService
-      .getUserItems(Number(sessionStorage.getItem('userId')))
+    this.getUserItems();
+  }
+
+  /** Get all items based on userId.*/
+  private getUserItems(): void {
+    this.itemsService.getUserItems(Number(sessionStorage.getItem('userId')))
       .subscribe({
         next: (response) => {
           this.itemCategory = response;
           this.itemCategory.forEach(function (item) {
-            var myString = item.item.lastUpdated;
-            item.item.lastUpdated = myString.substring(
-              0,
-              myString.indexOf('.')
-            );
+            let tempLastUpdated = item.item.lastUpdated;
+            item.item.lastUpdated = tempLastUpdated.substring( 0, tempLastUpdated.indexOf('.'));
           });
         },
         error: (err) => {
           alert(`There is an error: ${err.error}`);
-        },
+        }
       });
   }
 }

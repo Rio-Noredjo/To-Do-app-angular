@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemsService } from '../../services/items.service';
-import { ItemCategory } from '../../class/item-category';
+import { ItemCategories } from '../../class/item-categories';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,23 +9,25 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./items.component.css'],
 })
 export class ItemsComponent implements OnInit {
-  itemCategory: ItemCategory[] = [];
+  itemCategory: ItemCategories[] = [];
   userId: number;
   allItems: boolean;
   email: string;
-  constructor(
-    private itemsService: ItemsService,
-    private route: ActivatedRoute
-  ) {}
+
+  constructor(private itemsService: ItemsService,
+              private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.params['userId'];
     this.allItems = !this.userId;
     this.email = sessionStorage.getItem('email');
-    this.retrieveItems();
+    this.getItems();
   }
 
-  retrieveItems(): void {
+  /** Get all items.
+   * if allItems is true retrieve all items from all users.
+   * if allItems is false retrieve all items from a user*/
+  private getItems(): void {
     if (this.allItems) {
       this.itemsService.getAllItems().subscribe({
         next: (response) => {
@@ -33,7 +35,7 @@ export class ItemsComponent implements OnInit {
         },
         error: (err) => {
           alert(`There is an error: ${err.error}`);
-        },
+        }
       });
     } else {
       this.itemsService.getUserItems(this.userId).subscribe({
@@ -42,20 +44,21 @@ export class ItemsComponent implements OnInit {
         },
         error: (err) => {
           alert(`There is an error: ${err.error}`);
-        },
+        }
       });
     }
   }
 
-  deleteItem(id: number) {
-    this.itemsService.deleteItem(id).subscribe({
+  /** Delete item based on itemId*/
+  deleteItem(itemId: number): void {
+    this.itemsService.deleteItem(itemId).subscribe({
       next: (response) => {
         this.ngOnInit();
         alert(`Item with id: ${response} successfully deleted`);
       },
       error: (err) => {
         alert(`There is an error: ${err.error}`);
-      },
+      }
     });
   }
 }

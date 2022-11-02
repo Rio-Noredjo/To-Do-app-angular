@@ -17,42 +17,42 @@ export class UsersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.retrieveUsers();
+    this.getUsers();
   }
 
-  retrieveUsers(): void {
+  /** Retrieve all users.*/
+  private getUsers(): void {
     this.usersService.getUsers().subscribe({
       next: (response) => {
         this.users = response;
       },
       error: (err) => {
         alert(`There is an error: ${err.error}`);
-      },
+      }
     });
   }
 
-  deleteUser(id: number): void {
-    this.itemsService.getUserItems(id).subscribe({
+  /** Delete user based on userId.*/
+  deleteUser(userId: number): void {
+    this.itemsService.getUserItems(userId).subscribe({
       next: (response) => {
         if (response.length == 0) {
-          this.usersService.deleteUser(id).subscribe({
+          this.usersService.deleteUser(userId).subscribe({
             next: (response) => {
               this.ngOnInit();
               alert(`User with id: ${response} successfully deleted`);
             },
             error: (err) => {
               alert(`There is an error: ${err.message}`);
-            },
+            }
           });
         } else {
-          alert(
-            `Not possible to delete user with id: ${id} first delete all items`
-          );
+          alert(`Not possible to delete user with id: ${userId} first delete all items`);
         }
       },
       error: (err) => {
         alert(`There is an error: ${err.message}`);
-      },
+      }
     });
   }
 }

@@ -10,10 +10,16 @@
   <div class="container col-md-6 offset-md-3">
     <div class="row pt-3">
       <h5>Items</h5>
-      <p>
-        Here you will find all Items. Depending on the user role, you can see
-        all items or only of the user.
-      </p>
+      <div *ngIf="allItems; else myItems">
+        <p>
+          Here you will find all items. You can only see
+          this page if you have the correct permissions
+        </p>
+      </div>
+      <ng-template #myItems>
+        <p>Here you will find your items.</p>
+      </ng-template>
+
     </div>
   </div>
 </div>
@@ -28,7 +34,7 @@
     </div>
     <div class="row">
       <h5 *ngIf="allItems">Items: all users</h5>
-      <h5 *ngIf="!allItems">Items: {{ this.email }}</h5>
+      <h5 *ngIf="!allItems">Items: {{email}}</h5>
       <div class="col">
         <table class="table table-striped">
           <thead>
@@ -57,24 +63,20 @@
                 </ul>
               </td>
               <td>{{ itemCategory.item.status }}</td>
-
               <td>
                 <p>
-                  <button
-                    class="btn btn-secondary"
-                    [disabled]="email !== itemCategory.item.user.email"
-                    [routerLink]="['/items/edit/', itemCategory.item.id]"
+                  <button class="btn btn-secondary"
+                          [disabled]="email !== itemCategory.item.user.email"
+                          [routerLink]="['/items/edit/', itemCategory.item.id]"
                   >
                     Edit
                   </button>
                 </p>
               </td>
-
               <td>
-                <button
-                  class="btn btn-danger"
-                  (click)="deleteItem(itemCategory.item.id)"
-                  [disabled]="itemCategory.item.status === 'Close'"
+                <button class="btn btn-danger"
+                        (click)="deleteItem(itemCategory.item.id)"
+                        [disabled]="itemCategory.item.status === 'Close'"
                 >
                   Delete
                 </button>

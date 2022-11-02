@@ -1,7 +1,7 @@
 import { Item } from './item';
 import { Category } from './category';
 
-export class ItemCategory {
+export class ItemCategories {
   item: Item;
   categories: Category[];
 }

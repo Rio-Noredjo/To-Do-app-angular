@@ -13,27 +13,23 @@ import { UsersService } from '../../services/users.service';
 export class LoginComponent implements OnInit {
   users: User[] = [];
   isInvalid: boolean = false;
-  form = {
-    email: '',
-    password: 'Password01!',
-  };
+  form = { email: '', password: 'Password01!', };
   isLogIn: boolean;
-  constructor(
-    private router: Router,
-    public loginService: AuthService,
-    private usersService: UsersService
-  ) {}
+
+  constructor(private router: Router,
+              public  authService: AuthService,
+              private usersService: UsersService) {}
 
   ngOnInit() {
     sessionStorage.removeItem('userId');
     sessionStorage.removeItem('email');
     sessionStorage.removeItem('userRoles');
-    this.retrieveUsers();
+    this.getUsers();
   }
 
   onSubmit(form: NgForm) {
     if (this.form.email !== '' && this.form.password !== '') {
-      this.loginService.authenticate(this.form.email, this.form.password);
+      this.authService.authenticate(this.form.email, this.form.password);
       setTimeout(() => {
         this.isLogIn = sessionStorage.getItem('email') !== null;
         if (this.isLogIn) {
@@ -48,14 +44,15 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  retrieveUsers(): void {
+  /** Retrieve all users.*/
+  private getUsers(): void {
     this.usersService.getUsers().subscribe({
       next: (response) => {
         this.users = response;
       },
       error: (err) => {
         alert(`There is an error: ${err.error}`);
-      },
+      }
     });
   }
 }

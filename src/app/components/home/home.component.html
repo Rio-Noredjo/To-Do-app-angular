@@ -11,14 +11,15 @@
     <div class="row pt-3">
       <h5>Home</h5>
       <p>
-        At the top of the page there is a navigation bar. The items in the
-        navigation bar depend on the role you are logged in with. on the right
-        side of the navigation bar there is a 'Logout' button. Clicking this
-        button will log you out and return you to the login page.
+        At the top of the page you will find a navigation bar. The items in the
+        navigation bar depend on the user you are logged in with, as they may
+        have different permissions. On the right
+        side of the navigation bar there is a 'Logout' button. By clicking on this
+        button you will be logged out and sent back to the login page.
         <br />
-        On this page you also can see all the user's to-do items. Each item has
-        a title, status, username, content, categories, 'Edit' button and last
-        update date. With 'Edit' button button you can change the relevant item.
+        On this page below you can see all the user's to-do items. Each item has
+        a title, status, username, content, categories, 'Edit' button and the date of
+        the last update. By clicking on the 'Edit' button you can change this item.
       </p>
     </div>
   </div>
@@ -27,7 +28,7 @@
 <div class="container-fluid">
   <div class="container border-top pt-3">
     <div class="row">
-      <h5>Items from: {{ this.email }}</h5>
+      <h5>Items from: {{email}}</h5>
       <div *ngFor="let item of itemCategory" class="col-4 p-2">
         <div class="card">
           <div class="card-body">
@@ -48,15 +49,9 @@
                 </ul>
               </div>
             </div>
-            <button
-              *ngIf="
-                loginService.isAccessUserRoles([
-                  UserRoleResult.ADMIN,
-                  UserRoleResult.CUSTOMER
-                ])
-              "
-              class="btn btn-light-green"
-              [routerLink]="['/items/edit/', item.item.id]"
+            <button *ngIf=" authService.isAccessUserRoles([ UserRoleResult.ADMIN,UserRoleResult.CUSTOMER])"
+                    class="btn btn-light-green"
+                    [routerLink]="['/items/edit/', item.item.id]"
             >
               Edit
             </button>
@@ -64,7 +59,9 @@
               <p >
                 {{ item.item.user.firstName }} {{ item.item.user.lastName }}
               </p>
-              <p class="card-subtitle">Updated: {{ item.item.lastUpdated }}</p>
+              <p class="card-subtitle">
+                Updated: {{ item.item.lastUpdated }}
+              </p>
             </div>
           </div>
         </div>
