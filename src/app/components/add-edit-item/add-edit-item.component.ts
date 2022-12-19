@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomValidators } from '../../validators/custom-validators';
-import { Status } from '../../enum/status';
 import { Category } from '../../class/category';
-import { Item } from '../../class/item';
-import { ItemCategories } from '../../class/item-categories';
 import { ActivatedRoute} from '@angular/router';
-import { User } from '../../class/user';
 import { ItemsService } from '../../services/items.service';
+import {Status} from "../../enum/status";
+import {Item} from "../../class/item";
+import {ItemCategories} from "../../class/item-categories";
+import {User} from "../../class/user";
+import {CustomValidators} from "../../validators/custom-validators";
 
 @Component({
   selector: 'app-add-edit-item',
@@ -105,7 +105,6 @@ export class AddEditItemComponent implements OnInit {
     });
   }
 
-  /** Retrieve all items for the user.*/
   private getUserItems(): void {
     this.itemsService
       .getUserItems(Number(sessionStorage.getItem('userId')))

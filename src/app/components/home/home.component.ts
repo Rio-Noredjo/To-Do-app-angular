@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemsService } from '../../services/items.service';
-import { ItemCategories } from '../../class/item-categories';
 import { AuthService } from '../../services/auth.service';
-import { UserRole } from '../../enum/user-role';
+import {ItemCategories} from "../../class/item-categories";
+import {UserRole} from "../../enum/user-role";
 
 @Component({
   selector: 'app-home',
@@ -26,7 +26,6 @@ export class HomeComponent implements OnInit {
     this.getUserItems();
   }
 
-  /** Get all items by userId.*/
   private getUserItems(): void {
     this.itemsService.getUserItems(Number(sessionStorage.getItem('userId')))
       .subscribe({

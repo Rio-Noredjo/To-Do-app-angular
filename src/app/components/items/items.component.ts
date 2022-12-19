@@ -49,7 +49,6 @@ export class ItemsComponent implements OnInit {
     }
   }
 
-  /** Delete item by itemId*/
   deleteItem(itemId: number): void {
     this.itemsService.deleteItem(itemId).subscribe({
       next: (response) => {

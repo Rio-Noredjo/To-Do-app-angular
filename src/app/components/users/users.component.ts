@@ -20,7 +20,6 @@ export class UsersComponent implements OnInit {
     this.getUsers();
   }
 
-  /** Retrieve all users.*/
   private getUsers(): void {
     this.usersService.getUsers().subscribe({
       next: (response) => {
@@ -32,7 +31,6 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  /** Delete user by userId.*/
   deleteUser(userId: number): void {
     this.itemsService.getUserItems(userId).subscribe({
       next: (response) => {

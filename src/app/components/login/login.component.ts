@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { User } from '../../class/user';
 import { UsersService } from '../../services/users.service';
+import {User} from "../../class/user";
 
 @Component({
   selector: 'app-login',
@@ -44,7 +44,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  /** Retrieve all users.*/
   private getUsers(): void {
     this.usersService.getUsers().subscribe({
       next: (response) => {

@@ -11,7 +11,6 @@ import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 })
 export class NavbarComponent implements OnInit {
   email: string;
-  userInfo: string[] = [];
   faLinkedin = faLinkedin;
   faGithub = faGithub;
 
@@ -25,7 +24,6 @@ export class NavbarComponent implements OnInit {
     this.email = sessionStorage.getItem('email');
   }
 
-  /** Logout user when button Logout is clicked.*/
   logout() {
     this.authService.logOut();
   }
